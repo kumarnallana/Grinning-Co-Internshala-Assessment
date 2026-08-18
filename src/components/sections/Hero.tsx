@@ -99,7 +99,7 @@ export function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-pulse"
         style={{ opacity: prefersReducedMotion ? 1 : textOpacity }}
       >
-        <span className="text-xs uppercase tracking-widest text-muted-foreground">Scroll</span>
+        <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Scroll</span>
         <ArrowDown className="w-4 h-4 text-muted-foreground" />
       </motion.div>
     </section>

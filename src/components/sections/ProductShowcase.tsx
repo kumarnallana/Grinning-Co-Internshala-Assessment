@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PRODUCTS } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
-import { motion, useReducedMotion, Variants } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 const PRODUCT_IMAGES = [
   "/images/product_1_1787073157894.jpg",
@@ -15,22 +15,34 @@ const PRODUCT_IMAGES = [
 ];
 
 function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: number }) {
+  const ref = React.useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
 
+  // Continuous Jar Motion
+  const jarScale = useTransform(scrollYProgress, [0, 0.4, 1], [1.1, 1, 0.95]);
+  const jarRotate = useTransform(scrollYProgress, [0, 0.4, 1], [2, 0, -1]);
+  const jarOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+  const jarY = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
   return (
-    <div className="relative min-h-[80vh] flex items-center py-20 border-b border-muted/20 last:border-0">
+    <div ref={ref} className="relative min-h-[80vh] flex items-center py-20 border-b border-muted/20 last:border-0">
       <div className={`w-full grid lg:grid-cols-2 gap-12 lg:gap-24 items-center ${index % 2 !== 0 ? 'lg:grid-flow-col-dense' : ''}`}>
         
         {/* Tangible Image Container */}
         <div className={`relative h-[50vh] lg:h-[70vh] w-full overflow-hidden rounded-sm ${index % 2 !== 0 ? 'lg:col-start-2' : ''}`}>
           <motion.div 
             className="absolute inset-[-10%]"
-            initial={prefersReducedMotion ? { opacity: 1 } : { scale: 1.15, rotate: 2, opacity: 0 }}
-            whileInView={prefersReducedMotion ? undefined : { scale: 1, rotate: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.5 }}
+            style={{ 
+              scale: prefersReducedMotion ? 1 : jarScale,
+              rotate: prefersReducedMotion ? 0 : jarRotate,
+              opacity: prefersReducedMotion ? 1 : jarOpacity,
+              y: prefersReducedMotion ? 0 : jarY
+            }}
           >
             <Image
               src={PRODUCT_IMAGES[index]}
@@ -88,7 +100,7 @@ export function ProductShowcase() {
     <section id="blends" className="relative bg-primary pt-24 sm:pt-32">
       <Container>
         <div className="mb-16 md:mb-24 max-w-2xl">
-          <h2 className="text-highlight font-semibold tracking-widest text-sm uppercase mb-4">
+          <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
             Signature Blends
           </h2>
           <p className="font-display text-4xl sm:text-5xl text-foreground mb-6">

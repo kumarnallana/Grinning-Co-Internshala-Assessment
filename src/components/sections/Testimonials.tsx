@@ -44,7 +44,7 @@ function TestimonialItem({
         {review.quote}
       </blockquote>
       <figcaption className="flex flex-col items-center">
-        <div className="font-medium text-foreground uppercase tracking-widest text-sm mb-1">
+        <div className="font-medium text-foreground uppercase tracking-[0.2em] text-sm mb-1">
           {review.author}
         </div>
         <div className="text-muted-foreground text-sm">
@@ -65,10 +65,10 @@ export function Testimonials() {
   });
 
   return (
-    <section ref={containerRef} id="reviews" className="relative bg-secondary/5 border-t border-muted/30" style={{ height: prefersReducedMotion ? 'auto' : '300vh' }}>
+    <section ref={containerRef} id="reviews" className="relative bg-transparent border-t border-muted/30" style={{ height: prefersReducedMotion ? 'auto' : '300vh' }}>
       <div className={prefersReducedMotion ? "py-24 sm:py-32" : "sticky top-0 h-screen flex flex-col overflow-hidden"}>
         <div className="w-full text-center pt-24 sm:pt-32 relative z-20">
-          <h2 className="text-highlight font-semibold tracking-widest text-sm uppercase mb-4">
+          <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
             The Evidence
           </h2>
           <p className="font-display text-xl text-muted-foreground">
@@ -86,7 +86,7 @@ export function Testimonials() {
                       {review.quote}
                     </blockquote>
                     <figcaption className="flex flex-col items-center">
-                      <div className="font-medium text-foreground uppercase tracking-widest text-sm mb-1">
+                      <div className="font-medium text-foreground uppercase tracking-[0.2em] text-sm mb-1">
                         {review.author}
                       </div>
                       <div className="text-muted-foreground text-sm">
