@@ -46,7 +46,7 @@ export function AnimatedReveal({
       viewport={{ once: true, margin: "-100px" }}
       transition={{
         duration: 1,
-        ease: [0.16, 1, 0.3, 1], // Custom sophisticated ease-out
+        ease: "easeOut",
         delay: shouldReduceMotion ? 0 : delay,
       }}
       className={cn("w-full", className)}

@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PRODUCTS } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, Variants } from "framer-motion";
 
 const PRODUCT_IMAGES = [
   "/images/product_1_1787073157894.jpg",
@@ -17,21 +17,7 @@ const PRODUCT_IMAGES = [
 function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: number }) {
   const prefersReducedMotion = useReducedMotion();
   
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      }
-    }
-  };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-  };
 
   return (
     <div className="relative min-h-[80vh] flex items-center py-20 border-b border-muted/20 last:border-0">
@@ -42,9 +28,9 @@ function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: nu
           <motion.div 
             className="absolute inset-[-10%]"
             initial={prefersReducedMotion ? { opacity: 1 } : { scale: 1.15, rotate: 2, opacity: 0 }}
-            whileInView={prefersReducedMotion ? {} : { scale: 1, rotate: 0, opacity: 1 }}
+            whileInView={prefersReducedMotion ? undefined : { scale: 1, rotate: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.5 }}
           >
             <Image
               src={PRODUCT_IMAGES[index]}
@@ -60,36 +46,36 @@ function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: nu
         {/* Contextual Information Sequence */}
         <motion.div 
           className={`relative z-10 p-8 lg:p-0 ${index % 2 !== 0 ? 'lg:col-start-1' : ''}`}
-          variants={prefersReducedMotion ? {} : containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+          whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
         >
-          <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-3 mb-6">
+          <div className="flex flex-wrap items-center gap-3 mb-6">
             {product.notes.map((note) => (
               <span key={note} className="text-xs tracking-[0.1em] uppercase text-highlight/90 font-medium">
                 {note}
               </span>
             ))}
-          </motion.div>
+          </div>
           
-          <motion.h3 variants={itemVariants} className="font-display tracking-tight text-5xl sm:text-6xl lg:text-7xl text-foreground mb-4">
+          <h3 className="font-display tracking-tight text-5xl sm:text-6xl lg:text-7xl text-foreground mb-4">
             {product.name}
-          </motion.h3>
-          <motion.span variants={itemVariants} className="text-2xl text-highlight font-light tabular-nums tracking-wider mb-8 block">
+          </h3>
+          <span className="text-2xl text-highlight font-light tabular-nums tracking-wider mb-8 block">
             {product.price}
-          </motion.span>
+          </span>
 
-          <motion.p variants={itemVariants} className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10 max-w-lg">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10 max-w-lg">
             {product.description}
-          </motion.p>
+          </p>
 
-          <motion.div variants={itemVariants}>
+          <div>
             <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2 border-muted-foreground/30 hover:bg-highlight hover:text-primary hover:border-highlight group/btn">
               Explore Blend
               <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
             </Button>
-          </motion.div>
+          </div>
         </motion.div>
 
       </div>
