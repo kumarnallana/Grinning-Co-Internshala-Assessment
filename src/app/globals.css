@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #050505; /* True midnight dark */
+  --foreground: #F4EFE6;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-white/[0.02] backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+}
+
+/* Dynamic Ambient Orbs */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.15;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: -1;
+  animation: orb-float 45s ease-in-out infinite alternate;
+}
+
+.orb-primary {
+  background: #8C2F39; /* Muted Redroot Red */
+}
+
+.orb-secondary {
+  background: #C9A15A; /* Warm Gold */
+}
+
+@keyframes orb-float {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(3%, 8%) scale(1.05); }
+  66% { transform: translate(-3%, -3%) scale(0.95); }
+  100% { transform: translate(1%, -8%) scale(1.02); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom selection */
+::selection {
+  background: #C9A15A;
+  color: #0B0E1A;
+}
+
+/* Base focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid #C9A15A;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
