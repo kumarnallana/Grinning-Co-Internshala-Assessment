@@ -18,13 +18,13 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     } else {
       document.body.style.overflow = "unset";
     }
-    
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
         onClose();
       }
     };
-    
+
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
@@ -52,12 +52,9 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="relative w-full h-full md:h-auto md:w-full md:max-w-md bg-[#0F1219] md:rounded-[28px] md:border md:border-[#2A2E37] md:shadow-[0_40px_120px_-40px_rgba(0,0,0,0.6)] flex flex-col"
-<<<<<<< HEAD
             role="dialog"
             aria-modal="true"
             aria-label="Login Modal"
-=======
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
           >
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-6 border-b border-white/10">
@@ -65,7 +62,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
                 <Logo />
                 <span className="font-display font-semibold">Redroot</span>
               </div>
-              <button 
+              <button
                 onClick={onClose}
                 className="p-2 rounded-full bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Close login"
@@ -75,7 +72,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </div>
 
             {/* Desktop Close Button */}
-            <button 
+            <button
               onClick={onClose}
               className="absolute top-4 right-4 p-2 rounded-full bg-secondary/50 hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors hidden md:block z-10"
               aria-label="Close login modal"

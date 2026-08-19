@@ -8,7 +8,6 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
-import { LeadGen } from "@/components/sections/LeadGen";
 import { DeveloperContact } from "@/components/sections/DeveloperContact";
 import { Footer } from "@/components/layout/Footer";
 
@@ -26,7 +25,6 @@ export default function Home() {
         <Pricing />
         <FAQ />
         <FinalCTA />
-        <LeadGen />
         <DeveloperContact />
       </main>
       <Footer />

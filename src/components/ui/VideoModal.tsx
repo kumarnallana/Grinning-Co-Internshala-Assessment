@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Loader2, Play } from "lucide-react";
+import { X, Play } from "lucide-react";
 import { MEDIA } from "@/data/media";
 
 interface VideoModalProps {
@@ -11,7 +11,6 @@ interface VideoModalProps {
 }
 
 export function VideoModal({ isOpen, onClose }: VideoModalProps) {
-  const modalRef = React.useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -41,15 +40,16 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6 lg:p-12"
           role="dialog"
           aria-modal="true"
           aria-label="Redroot Ritual Video"
         >
           {/* Close Background Overlay */}
-          <div 
-            className="absolute inset-0 cursor-pointer" 
-            onClick={onClose} 
+          <div
+            className="absolute inset-0 cursor-pointer"
+            onClick={onClose}
             aria-hidden="true"
           />
 
@@ -58,16 +58,14 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-5xl aspect-video bg-primary/50 border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-10 flex items-center justify-center"
-            ref={modalRef}
+            className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl z-10"
           >
-            {/* Intentional Media Handling based on Centralized Data */}
             {MEDIA.ritualVideo.src ? (
               <>
                 {isLoading && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-highlight gap-4 z-10 bg-primary">
-                    <Loader2 className="w-8 h-8 animate-spin" />
-                    <p className="text-sm font-display tracking-widest uppercase">Loading Ritual...</p>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-[#D4A86A] gap-4 z-10 bg-[#0A0D12]">
+                    <div className="w-8 h-8 border-2 border-[#D4A86A] border-t-transparent rounded-full animate-spin" />
+                    <p className="text-sm font-semibold tracking-widest uppercase">Loading Ritual...</p>
                   </div>
                 )}
                 <video
@@ -81,27 +79,62 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
                 />
               </>
             ) : (
-              /* Intentional Unavailable State */
-              <div 
+              /* Premium "Coming Soon" Cinematic State */
+              <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${MEDIA.ritualVideo.poster}')` }}
               >
-                <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
-                  <p className="text-highlight text-sm tracking-[0.2em] uppercase mb-4 font-semibold">Media Unavailable</p>
-                  <h3 className="text-2xl sm:text-3xl font-display text-white mb-2">{MEDIA.ritualVideo.title}</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto mb-6">
-                    The ritual sequence is currently unavailable. Please check back later.
-                  </p>
-                  <div className="text-xs text-muted-foreground/50 border border-white/10 rounded-full px-4 py-2 bg-black/20">
-                    To enable this feature, provide a valid <code className="text-highlight">src</code> in <code className="text-highlight">src/data/media.ts</code>
+                {/* Layered cinematic vignettes */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/40" />
+
+                {/* Content */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 gap-6">
+                  {/* Animated pulsing play button */}
+                  <div className="relative">
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-[#D4A86A]/30"
+                      animate={{ scale: [1, 1.5, 1], opacity: [0.6, 0, 0.6] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-[#D4A86A]/15"
+                      animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                    />
+                    <div className="relative w-20 h-20 rounded-full bg-[#D4A86A]/20 border-2 border-[#D4A86A]/60 backdrop-blur-sm flex items-center justify-center">
+                      <Play className="w-8 h-8 text-[#D4A86A] fill-[#D4A86A] translate-x-0.5" />
+                    </div>
+                  </div>
+
+                  {/* Premium messaging */}
+                  <div className="max-w-lg">
+                    <p className="text-[#D4A86A] text-xs sm:text-sm tracking-[0.3em] uppercase font-semibold mb-3">
+                      The Ritual
+                    </p>
+                    <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mb-4 leading-tight">
+                      {MEDIA.ritualVideo.title}
+                    </h3>
+                    <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-sm mx-auto">
+                      An intimate journey through the nightly ritual. Filmed across three seasons of botanical harvest.
+                    </p>
+                  </div>
+
+                  {/* Releasing soon badge */}
+                  <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A86A] animate-pulse" />
+                    <span className="text-xs text-white/70 tracking-[0.15em] uppercase font-medium">
+                      Releasing Soon
+                    </span>
                   </div>
                 </div>
               </div>
             )}
 
+            {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-30 w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-highlight hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight"
+              className="absolute top-4 right-4 z-30 w-10 h-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-[#D4A86A] hover:text-black transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A86A]"
               aria-label="Close video modal"
             >
               <X className="w-5 h-5" />

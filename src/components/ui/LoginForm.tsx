@@ -4,15 +4,10 @@ import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Mail, KeyRound, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-<<<<<<< HEAD
 import { useDemoSession } from "@/context/DemoSessionContext";
 
 export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const { loginDemo } = useDemoSession();
-=======
-
-export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [status, setStatus] = React.useState<"idle" | "loading" | "success" | "error">("idle");
@@ -25,20 +20,17 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
       setErrorMsg("Please fill in all fields.");
       return;
     }
-    
+
     setStatus("loading");
-    
-    // Simulate network request
+
+    // Demo session — no backend, no persistence
     setTimeout(() => {
       if (email === "error@example.com") {
         setStatus("error");
         setErrorMsg("Invalid credentials. Please try again.");
       } else {
         setStatus("success");
-<<<<<<< HEAD
         loginDemo(email);
-=======
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
         setTimeout(() => {
           onSuccess?.();
         }, 1200);
@@ -48,7 +40,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
 
   if (status === "success") {
     return (
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="flex flex-col items-center justify-center py-8 text-center"
@@ -122,8 +114,8 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
         )}
       </AnimatePresence>
 
-      <Button 
-        type="submit" 
+      <Button
+        type="submit"
         className="w-full h-12 mt-2 bg-highlight hover:bg-highlight/90 text-primary font-medium flex items-center justify-center gap-2 group"
         disabled={status === "loading"}
       >

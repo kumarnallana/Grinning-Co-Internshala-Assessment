@@ -9,11 +9,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { LoginModal } from "@/components/ui/LoginModal";
-<<<<<<< HEAD
 import { UserMenu } from "@/components/ui/UserMenu";
 import { useDemoSession } from "@/context/DemoSessionContext";
-=======
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
 
 export function Navbar() {
   const { isDemoAuthenticated } = useDemoSession();
@@ -35,7 +32,7 @@ export function Navbar() {
     } else {
       document.body.style.overflow = "unset";
     }
-    
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isMobileMenuOpen) {
         setIsMobileMenuOpen(false);
@@ -57,8 +54,8 @@ export function Navbar() {
         )}
       >
         <nav className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
             aria-label="Redroot Home"
           >
@@ -81,13 +78,12 @@ export function Navbar() {
           </ul>
 
           <div className="hidden md:flex items-center gap-4">
-<<<<<<< HEAD
             {isDemoAuthenticated ? (
               <UserMenu />
             ) : (
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="hidden lg:inline-flex"
                 onClick={() => setIsLoginOpen(true)}
               >
@@ -97,17 +93,6 @@ export function Navbar() {
             <Button size="sm" onClick={() => { window.location.href = '#pricing'; }}>
               Begin Ritual
             </Button>
-=======
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="hidden lg:inline-flex"
-              onClick={() => setIsLoginOpen(true)}
-            >
-              Log In
-            </Button>
-            <Button size="sm">Begin Ritual</Button>
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -136,8 +121,8 @@ export function Navbar() {
             aria-label="Mobile Navigation"
           >
             <div className="flex items-center justify-between px-4 sm:px-6 h-20 border-b border-muted">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -167,18 +152,11 @@ export function Navbar() {
                 ))}
               </ul>
               <div className="flex flex-col gap-4 mt-8">
-<<<<<<< HEAD
-                <Button 
-=======
-                <Button size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>Begin Ritual</Button>
-                <Button 
-                  variant="outline" 
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
-                  size="lg" 
-                  className="w-full" 
+                <Button
+                  size="lg"
+                  className="w-full"
                   onClick={() => {
                     setIsMobileMenuOpen(false);
-<<<<<<< HEAD
                     window.location.href = '#pricing';
                   }}
                 >
@@ -189,10 +167,10 @@ export function Navbar() {
                     <UserMenu />
                   </div>
                 ) : (
-                  <Button 
-                    variant="outline" 
-                    size="lg" 
-                    className="w-full" 
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       setIsLoginOpen(true);
@@ -201,13 +179,6 @@ export function Navbar() {
                     Log In
                   </Button>
                 )}
-=======
-                    setIsLoginOpen(true);
-                  }}
-                >
-                  Log In
-                </Button>
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
               </div>
             </nav>
           </motion.div>

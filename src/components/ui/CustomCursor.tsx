@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring } from "motion/react";
 export function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  
+
   const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
@@ -15,35 +15,24 @@ export function CustomCursor() {
     // Only run on desktop (avoid on touch devices)
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
-<<<<<<< HEAD
     let rafId: number | undefined;
-=======
-    let rafId: number;
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
     let targetX = -100;
     let targetY = -100;
 
     const onMouseMove = (e: MouseEvent) => {
       targetX = e.clientX;
       targetY = e.clientY;
-      
+
       // Update immediately for the precise dot
       cursorX.set(targetX);
       cursorY.set(targetY);
-      
-      // We could check element under cursor here for advanced states, 
-      // but relying on CSS :hover is generally more performant.
     };
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
-<<<<<<< HEAD
       if (rafId !== undefined) cancelAnimationFrame(rafId);
-=======
-      if (rafId) cancelAnimationFrame(rafId);
->>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
     };
   }, [cursorX, cursorY]);
 
