@@ -30,7 +30,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {/* Hover Background Expansion */}
         <span className={cn(
-          "absolute inset-0 w-full h-full scale-x-0 origin-left transition-transform duration-500 ease-[0.16,1,0.3,1] group-hover:scale-x-100",
+          "absolute inset-0 w-full h-full scale-x-0 origin-left transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100",
           {
             "bg-[#D4B06A]": variant === "primary",
             "bg-[#1E2136]": variant === "secondary",
@@ -40,7 +40,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )} />
         
         {/* Content Wrapper for shift */}
-        <span className="relative z-10 flex items-center justify-center gap-2 transition-transform duration-500 ease-[0.16,1,0.3,1] group-hover:translate-x-1">
+        <span className="relative z-10 flex items-center justify-center gap-2 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
           {children}
         </span>
       </button>
