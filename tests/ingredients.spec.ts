@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Active Botanical Stage', () => {
   test('exiting nodes are correctly stripped of active semantics', async ({ page }) => {
     // 1. Navigate to the page
-    await page.goto('/');
+    await page.goto('http://localhost:3000/');
 
     // 2. Scroll to the ingredients section to trigger intersection observers
     const section = page.locator('#ingredients');
