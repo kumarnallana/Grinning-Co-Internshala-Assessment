@@ -6,6 +6,7 @@ import { ArrowDown, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from "motion/react";
+import { VideoModal } from "@/components/ui/VideoModal";
 import dynamic from "next/dynamic";
 
 const HeroCanvas = dynamic(() => import("./HeroCanvas").then(mod => mod.HeroCanvas), { 
@@ -91,6 +92,7 @@ function HeroProductJar({ prefersReducedMotion }: { prefersReducedMotion: boolea
 export function Hero() {
   const { scrollY } = useScroll();
   const prefersReducedMotion = useReducedMotion();
+  const [isVideoOpen, setIsVideoOpen] = React.useState(false);
   
   // Parallax and fade effects
   const bgScale = useTransform(scrollY, [0, 1000], [1, 1.12]);
@@ -172,10 +174,15 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Button size="lg" className="w-full sm:w-auto shadow-[0_0_30px_rgba(201,161,90,0.25)] hover:shadow-[0_0_40px_rgba(201,161,90,0.4)] transition-all">
-              Begin Your Ritual
+            <Button size="lg" className="w-full sm:w-auto shadow-[0_0_30px_rgba(201,161,90,0.25)] hover:shadow-[0_0_40px_rgba(201,161,90,0.4)] transition-all" asChild>
+              <a href="#pricing">Begin Your Ritual</a>
             </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2 border-white/20 hover:border-highlight group/btn">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="w-full sm:w-auto gap-2 border-white/20 hover:border-highlight group/btn"
+              onClick={() => setIsVideoOpen(true)}
+            >
               <Play className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
               Watch the Ritual
             </Button>
@@ -205,6 +212,8 @@ export function Hero() {
         <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Scroll</span>
         <ArrowDown className="w-4 h-4 text-muted-foreground" />
       </motion.div>
+
+      <VideoModal isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
     </section>
   );
 }

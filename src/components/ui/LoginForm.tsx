@@ -4,8 +4,10 @@ import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Mail, KeyRound, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useDemoSession } from "@/context/DemoSessionContext";
 
 export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
+  const { loginDemo } = useDemoSession();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [status, setStatus] = React.useState<"idle" | "loading" | "success" | "error">("idle");
@@ -28,6 +30,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
         setErrorMsg("Invalid credentials. Please try again.");
       } else {
         setStatus("success");
+        loginDemo(email);
         setTimeout(() => {
           onSuccess?.();
         }, 1200);

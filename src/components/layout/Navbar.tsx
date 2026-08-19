@@ -9,8 +9,11 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { LoginModal } from "@/components/ui/LoginModal";
+import { UserMenu } from "@/components/ui/UserMenu";
+import { useDemoSession } from "@/context/DemoSessionContext";
 
 export function Navbar() {
+  const { isDemoAuthenticated } = useDemoSession();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isLoginOpen, setIsLoginOpen] = React.useState(false);
@@ -75,15 +78,21 @@ export function Navbar() {
           </ul>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="hidden lg:inline-flex"
-              onClick={() => setIsLoginOpen(true)}
-            >
-              Log In
+            {isDemoAuthenticated ? (
+              <UserMenu />
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hidden lg:inline-flex"
+                onClick={() => setIsLoginOpen(true)}
+              >
+                Log In
+              </Button>
+            )}
+            <Button size="sm" asChild>
+              <a href="#join">Begin Ritual</a>
             </Button>
-            <Button size="sm">Begin Ritual</Button>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -143,18 +152,26 @@ export function Navbar() {
                 ))}
               </ul>
               <div className="flex flex-col gap-4 mt-8">
-                <Button size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>Begin Ritual</Button>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="w-full" 
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    setIsLoginOpen(true);
-                  }}
-                >
-                  Log In
+                <Button size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)} asChild>
+                  <a href="#pricing">Begin Ritual</a>
                 </Button>
+                {isDemoAuthenticated ? (
+                  <div className="flex justify-center">
+                    <UserMenu />
+                  </div>
+                ) : (
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="w-full" 
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsLoginOpen(true);
+                    }}
+                  >
+                    Log In
+                  </Button>
+                )}
               </div>
             </nav>
           </motion.div>

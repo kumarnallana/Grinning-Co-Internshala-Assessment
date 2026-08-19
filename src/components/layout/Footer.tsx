@@ -89,7 +89,10 @@ export function Footer() {
               Company
             </h3>
             <ul className="space-y-4">
-              {FOOTER_LINKS.company.map((link) => (
+              {[
+                { name: "Our Story", href: "#story" },
+                { name: "The Evidence", href: "#reviews" },
+              ].map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-sm text-muted-foreground hover:text-highlight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm px-1 -ml-1">
                     {link.name}
@@ -104,7 +107,10 @@ export function Footer() {
               Support
             </h3>
             <ul className="space-y-4">
-              {FOOTER_LINKS.support.map((link) => (
+              {[
+                { name: "FAQ", href: "#faq" },
+                { name: "Get in Touch", href: "mailto:sasikumarnallana956@gmail.com" },
+              ].map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-sm text-muted-foreground hover:text-highlight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm px-1 -ml-1">
                     {link.name}
@@ -119,11 +125,11 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} {BRAND.name}. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <Link href="/" className="text-xs text-muted-foreground hover:text-highlight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm">
+          <div className="flex items-center gap-6 mt-4 md:mt-0">
+            <Link href="#privacy" className="text-xs text-muted-foreground hover:text-highlight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm">
               Privacy Policy
             </Link>
-            <Link href="/" className="text-xs text-muted-foreground hover:text-highlight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm">
+            <Link href="#terms" className="text-xs text-muted-foreground hover:text-highlight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm">
               Terms of Service
             </Link>
           </div>
