@@ -30,7 +30,7 @@ test.describe('Developer Contact Section', () => {
     // 3. LinkedIn
     const linkedinLink = page.locator('a', { hasText: 'LinkedIn Profile' });
     await expect(linkedinLink).toBeVisible();
-    await expect(linkedinLink).toHaveAttribute('href', 'https://linkedin.com/in/sasikumar-nallana');
+    await expect(linkedinLink).toHaveAttribute('href', 'https://www.linkedin.com/in/sasi-kumar-nallana');
     await expect(linkedinLink).toHaveAttribute('target', '_blank');
 
     // 4. GitHub

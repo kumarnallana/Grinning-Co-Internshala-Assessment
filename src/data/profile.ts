@@ -4,6 +4,6 @@ export const DEVELOPER_PROFILE = {
   description: "Full-Stack Developer passionate about building high-performance, accessible, and scalable web applications.",
   email: "sasikumarnallana956@gmail.com",
   github: "https://github.com/kumarnallana",
-  linkedin: "https://linkedin.com/in/sasikumar-nallana",
+  linkedin: "https://www.linkedin.com/in/sasi-kumar-nallana",
   resume: "/resume.pdf",
 };

@@ -80,10 +80,10 @@ function MobileIngredientCards() {
                 </div>
 
                 {/* Main card body */}
-                <div className="flex items-start gap-4 p-6">
+                <div className="flex flex-col xs:flex-row items-start gap-4 p-5 sm:p-6">
                   {/* Text */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display text-4xl sm:text-5xl text-foreground mb-3 leading-none tracking-tight">
+                  <div className="flex-1 min-w-0 w-full">
+                    <h3 className="font-display text-3xl sm:text-4xl text-foreground mb-3 leading-none tracking-tight break-words hyphens-auto">
                       {ingredient.name}
                     </h3>
                     <div className="w-10 h-px bg-highlight/40 mb-4" />
@@ -93,13 +93,13 @@ function MobileIngredientCards() {
                   </div>
 
                   {/* Image */}
-                  <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-xl overflow-hidden border border-highlight/15 bg-secondary/40 flex-shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
+                  <div className="relative w-full xs:w-28 xs:h-28 sm:w-36 sm:h-36 h-48 rounded-xl overflow-hidden border border-highlight/15 bg-secondary/40 flex-shrink-0 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
                     <Image
                       src={ingredient.image}
                       alt={`Macro photograph of ${ingredient.name}`}
                       fill
                       className="object-cover mix-blend-luminosity opacity-90"
-                      sizes="160px"
+                      sizes="(max-width: 400px) 100vw, 160px"
                     />
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent to-primary/40" />
                   </div>

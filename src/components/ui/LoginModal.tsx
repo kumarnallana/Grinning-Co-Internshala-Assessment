@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import { LoginForm } from "./LoginForm";
 import { Logo } from "./Logo";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -12,13 +13,9 @@ interface LoginModalProps {
 }
 
 export function LoginModal({ isOpen, onClose }: LoginModalProps) {
-  React.useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+  useScrollLock(isOpen);
 
+  React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
         onClose();
@@ -28,7 +25,6 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
     };
   }, [isOpen, onClose]);
 

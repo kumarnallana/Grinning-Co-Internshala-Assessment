@@ -6,7 +6,7 @@ import { Accordion, AccordionItem } from "@/components/ui/Accordion";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { motion } from "motion/react";
 import { MessageSquare, ArrowRight, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 
 const CATEGORIZED_FAQS: AccordionItem[] = [
   {
@@ -121,10 +121,10 @@ export function FAQ() {
               </div>
             </div>
 
-            <Button variant="outline" size="sm" className="whitespace-nowrap shrink-0 border-highlight/30 hover:bg-highlight hover:text-primary hover:border-highlight group/btn">
+            <Link href="#join" className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3 text-xs shrink-0 border-highlight/30 hover:bg-highlight hover:text-primary hover:border-highlight group/btn">
               Consult Herbalist
               <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
-            </Button>
+            </Link>
           </div>
         </RevealOnScroll>
       </Container>

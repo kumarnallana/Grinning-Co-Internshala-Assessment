@@ -4,6 +4,7 @@ import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, Film } from "lucide-react";
 import { MEDIA } from "@/data/media";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -16,21 +17,22 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
 
   React.useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
       setIsLoading(true);
       setHasError(false);
-    } else {
-      document.body.style.overflow = "unset";
     }
+  }, [isOpen]);
 
+  useScrollLock(isOpen);
+
+  React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
         onClose();
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "unset";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);

@@ -4,10 +4,43 @@ import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { PRICING_PLANS } from "@/lib/constants";
+import { motion, useMotionValue, useTransform, animate, useInView, useReducedMotion } from "motion/react";
+
+function AnimatedPrice({ priceString, inView }: { priceString: string; inView: boolean }) {
+  const numMatch = priceString.match(/(\d+)/);
+  const prefersReducedMotion = useReducedMotion();
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest));
+
+  React.useEffect(() => {
+    if (!numMatch || prefersReducedMotion) return;
+    const num = parseInt(numMatch[1], 10);
+    
+    if (inView) {
+      animate(count, num, { duration: 1.5, ease: "easeOut" });
+    }
+  }, [inView, count, numMatch, prefersReducedMotion]);
+
+  if (!numMatch) return <span>{priceString}</span>;
+  
+  const prefix = priceString.substring(0, numMatch.index);
+  const suffix = priceString.substring(numMatch.index! + numMatch[1].length);
+
+  return (
+    <span>
+      {prefix}
+      {prefersReducedMotion ? numMatch[1] : <motion.span>{rounded}</motion.span>}
+      {suffix}
+    </span>
+  );
+}
 
 export function Pricing() {
+  const containerRef = React.useRef(null);
+  const inView = useInView(containerRef, { once: true, margin: "-100px" });
+
   return (
-    <section className="pt-12 sm:pt-16 pb-24 sm:pb-32 relative border-t border-muted/30">
+    <section id="pricing" ref={containerRef} className="pt-12 sm:pt-16 pb-24 sm:pb-32 relative border-t border-muted/30">
       <Container>
         <div className="mb-16 md:mb-24 text-center max-w-2xl mx-auto">
           <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
@@ -46,7 +79,9 @@ export function Pricing() {
                 <h3 className="font-display text-3xl text-foreground mb-4">{plan.name}</h3>
                 
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="font-display text-5xl lg:text-6xl text-foreground tracking-tight">{plan.price}</span>
+                  <span className="font-display text-5xl lg:text-6xl text-foreground tracking-tight">
+                    <AnimatedPrice priceString={plan.price} inView={inView} />
+                  </span>
                 </div>
                 <span className="text-sm tracking-wide text-muted-foreground uppercase">{plan.period}</span>
               </div>
