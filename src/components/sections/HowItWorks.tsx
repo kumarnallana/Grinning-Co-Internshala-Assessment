@@ -4,7 +4,7 @@ import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { HOW_IT_WORKS } from "@/lib/constants";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { m } from "motion/react";
+import { motion } from "motion/react";
 
 const RITUAL_STATES: Record<string, { theme: string; glow: string; cue: string; border: string }> = {
   "01": {
@@ -71,7 +71,7 @@ export function HowItWorks() {
               {HOW_IT_WORKS.map((item) => {
                 const state = RITUAL_STATES[item.step] || RITUAL_STATES["01"];
                 return (
-                  <m.div
+                  <motion.div
                     key={item.step}
                     className={`relative group flex flex-col sm:flex-row gap-6 sm:gap-12 items-start p-6 sm:p-10 rounded-2xl border transition-all duration-1000 ${state.border}`}
                     initial="hidden"
@@ -84,7 +84,7 @@ export function HowItWorks() {
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   >
                     {/* Sensory Ambient Gradient Background */}
-                    <m.div 
+                    <motion.div 
                       className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${state.theme} z-0 pointer-events-none`}
                       variants={{
                         hidden: { opacity: 0 },
@@ -94,7 +94,7 @@ export function HowItWorks() {
                     />
 
                     {/* Active highlight line indicator overlay */}
-                    <m.div 
+                    <motion.div 
                       className="absolute left-[51px] sm:left-[75px] top-0 bottom-0 w-px bg-highlight origin-top hidden sm:block z-20"
                       variants={{
                         hidden: { scaleY: 0 },
@@ -120,7 +120,7 @@ export function HowItWorks() {
                         {item.description}
                       </p>
                     </div>
-                  </m.div>
+                  </motion.div>
                 );
               })}
             </div>

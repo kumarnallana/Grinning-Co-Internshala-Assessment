@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
-import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 
 export function Story() {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -33,11 +33,11 @@ export function Story() {
   return (
     <section ref={containerRef} id="story" className="py-24 sm:py-32 relative overflow-hidden">
       {/* Full-bleed background with mask reveal */}
-      <m.div 
+      <motion.div 
         className="absolute inset-0 z-0 overflow-hidden"
         style={{ clipPath: prefersReducedMotion ? "none" : clipPath }}
       >
-        <m.div 
+        <motion.div 
           className="absolute inset-[-5%]"
           style={{ 
             scale: prefersReducedMotion ? 1 : imageScale,
@@ -54,14 +54,14 @@ export function Story() {
           {/* Subtle warm backlight glow */}
           <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-primary/80" />
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-transparent to-primary/90" />
-        </m.div>
-      </m.div>
+        </motion.div>
+      </motion.div>
 
       {/* Central Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45vw] h-[45vw] max-w-[500px] bg-highlight/10 blur-[120px] rounded-full pointer-events-none z-[1]" />
 
       <Container className="relative z-10 max-w-4xl text-center">
-        <m.div
+        <motion.div
           style={{ 
             opacity: prefersReducedMotion ? 1 : labelOpacity,
             y: prefersReducedMotion ? 0 : labelY
@@ -70,10 +70,10 @@ export function Story() {
           <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-12">
             The Paradigm Shift
           </h2>
-        </m.div>
+        </motion.div>
 
         <div className="space-y-12 font-display text-4xl sm:text-5xl md:text-6xl leading-[1.2] text-foreground">
-          <m.p
+          <motion.p
             style={{ 
               opacity: prefersReducedMotion ? 1 : text1Opacity,
               y: prefersReducedMotion ? 0 : text1Y
@@ -81,9 +81,9 @@ export function Story() {
           >
             Modern culture demands constant acceleration. <br className="hidden sm:block" />
             <span className="text-muted-foreground/60 italic text-3xl sm:text-4xl md:text-5xl tracking-tight">It asks you to push harder, run faster, and never stop.</span>
-          </m.p>
+          </motion.p>
           
-          <m.div
+          <motion.div
             style={{ 
               opacity: prefersReducedMotion ? 1 : text2Opacity,
               y: prefersReducedMotion ? 0 : text2Y
@@ -95,7 +95,7 @@ export function Story() {
             <p className="text-xl sm:text-2xl text-muted-foreground font-sans leading-relaxed max-w-2xl mx-auto font-light">
               Redroot is not just a tea. It is a definitive boundary between your output and your recovery. A sensory ritual designed to silence the adrenaline and bring you back to center.
             </p>
-          </m.div>
+          </motion.div>
         </div>
       </Container>
     </section>

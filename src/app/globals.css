@@ -6,8 +6,6 @@
   --background: #050505; /* True midnight dark */
   --foreground: #F4EFE6;
   --header-height: 5rem; /* 80px */
-  --font-inter: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-playfair: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 body {
@@ -35,12 +33,6 @@ section[id] {
 }
 .cursor-interactive:hover {
   cursor: crosshair;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  body, a, button, [role="button"], input, select, textarea {
-    cursor: none;
-  }
 }
 
 /* Dynamic Ambient Orbs */

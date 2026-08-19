@@ -5,9 +5,8 @@ import Image from "next/image";
 import { ArrowDown, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { m, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion, useMotionValue, useSpring } from "motion/react";
 import dynamic from "next/dynamic";
-import { RevealHeadline } from "@/components/ui/RevealHeadline";
 
 const HeroCanvas = dynamic(() => import("./HeroCanvas").then(mod => mod.HeroCanvas), { 
   ssr: false,
@@ -43,12 +42,12 @@ function HeroProductJar({ prefersReducedMotion }: { prefersReducedMotion: boolea
       className="relative w-full max-w-[290px] sm:max-w-sm lg:max-w-md aspect-[4/5] group cursor-pointer mx-auto lg:mx-0"
       style={{ perspective: 1200 }}
     >
-      <m.div
+      <motion.div
         animate={prefersReducedMotion ? {} : { y: [0, -14, 0] }}
         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         className="w-full h-full"
       >
-        <m.div
+        <motion.div
           className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_30px_70px_-15px_rgba(0,0,0,0.9)] border border-highlight/25 backdrop-blur-sm"
           style={{
             rotateX: prefersReducedMotion ? 0 : rotateX,
@@ -80,8 +79,8 @@ function HeroProductJar({ prefersReducedMotion }: { prefersReducedMotion: boolea
             <Sparkles className="w-3 h-3 text-highlight" />
             <span>01 Low Tide</span>
           </div>
-        </m.div>
-      </m.div>
+        </motion.div>
+      </motion.div>
 
       {/* Warm Gold Corona Backlight */}
       <div className="absolute inset-0 bg-highlight/25 blur-[100px] rounded-full z-[-1] scale-90 pointer-events-none group-hover:bg-highlight/40 group-hover:scale-105 transition-all duration-700" />
@@ -104,27 +103,27 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden" aria-labelledby="hero-heading">
       <HeroCanvas />
       {/* Background Image with Parallax */}
-      <m.div 
-        className="absolute inset-0 z-0 origin-top pointer-events-none"
+      <motion.div 
+        className="absolute inset-0 z-0 origin-top"
         style={{ scale: prefersReducedMotion ? 1 : bgScale }}
       >
-        <m.div className="relative w-full h-full" style={{ opacity: prefersReducedMotion ? 0.35 : bgOpacity }}>
+        <motion.div className="relative w-full h-full" style={{ opacity: prefersReducedMotion ? 0.35 : bgOpacity }}>
           <Image
             src="/images/hero_bg_1787072201282.jpg"
             alt="Moody, dark editorial tea steeping representing deep rest"
             fill
             priority
-            className="object-cover object-center mix-blend-luminosity pointer-events-none"
+            className="object-cover object-center mix-blend-luminosity"
             sizes="100vw"
           />
-        </m.div>
+        </motion.div>
         {/* Gradient Overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/60 to-transparent" />
-      </m.div>
+      </motion.div>
 
       <Container className="relative z-10 grid lg:grid-cols-12 gap-12 lg:gap-8 items-center w-full">
-        <m.div 
+        <motion.div 
           className="lg:col-span-7 max-w-2xl text-center lg:text-left mx-auto lg:mx-0"
           style={{ 
             opacity: prefersReducedMotion ? 1 : textOpacity, 
@@ -132,7 +131,7 @@ export function Hero() {
           }}
         >
           {/* Shimmering Eyebrow Badge */}
-          <m.div 
+          <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
@@ -142,29 +141,32 @@ export function Hero() {
             <span className="text-highlight font-semibold tracking-[0.22em] text-xs uppercase">
               For Those Who Run Too Fast
             </span>
-          </m.div>
+          </motion.div>
 
           {/* Kinetic Headline Reveal */}
-          <div className="mb-6">
-            <RevealHeadline
-              delay={0.25}
+          <div className="overflow-hidden mb-6">
+            <motion.h1 
+              id="hero-heading" 
               className="font-display font-light text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.08] text-foreground tracking-tight"
+              initial={{ y: "80%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1.1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             >
               Release your day. <br />
               <span className="text-muted-foreground/80 italic font-serif">Return to stillness.</span>
-            </RevealHeadline>
+            </motion.h1>
           </div>
 
-          <m.p 
+          <motion.p 
             className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-lg leading-relaxed mx-auto lg:mx-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
             A nightly ritual crafted from potent botanicals. Slow down, silence the noise, and experience the deep restoration you&apos;ve earned.
-          </m.p>
+          </motion.p>
           
-          <m.div 
+          <motion.div 
             className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -177,11 +179,11 @@ export function Hero() {
               <Play className="w-4 h-4 transition-transform group-hover/btn:scale-110" />
               Watch the Ritual
             </Button>
-          </m.div>
-        </m.div>
+          </motion.div>
+        </motion.div>
 
         {/* Floating 3D Product Jar for Visual Prominence */}
-        <m.div 
+        <motion.div 
           className="lg:col-span-5 flex justify-center lg:justify-end items-center relative"
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -192,17 +194,17 @@ export function Hero() {
           }}
         >
           <HeroProductJar prefersReducedMotion={prefersReducedMotion} />
-        </m.div>
+        </motion.div>
       </Container>
 
       {/* Scroll Indicator */}
-      <m.div 
+      <motion.div 
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-pulse"
         style={{ opacity: prefersReducedMotion ? 1 : textOpacity }}
       >
         <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Scroll</span>
         <ArrowDown className="w-4 h-4 text-muted-foreground" />
-      </m.div>
+      </motion.div>
     </section>
   );
 }

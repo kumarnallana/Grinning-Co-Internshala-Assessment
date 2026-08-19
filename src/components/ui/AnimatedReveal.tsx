@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { m, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface AnimatedRevealProps {
@@ -40,7 +40,7 @@ export function AnimatedReveal({
   const animate = { opacity: 1, x: 0, y: 0 };
 
   return (
-    <m.div
+    <motion.div
       initial={initial}
       whileInView={animate}
       viewport={{ once: true, margin: "-100px" }}
@@ -52,6 +52,6 @@ export function AnimatedReveal({
       className={cn("w-full", className)}
     >
       {children}
-    </m.div>
+    </motion.div>
   );
 }

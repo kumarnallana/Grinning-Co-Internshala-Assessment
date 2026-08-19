@@ -1,9 +1,21 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 import { AmbientBackground } from "@/components/background/AmbientBackground";
 import { MotionProvider } from "@/components/providers/MotionProvider";
-import { CustomCursor } from "@/components/ui/CustomCursor";
 
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   themeColor: "#050505", // Deep midnight indigo to match our --primary
@@ -37,10 +49,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <body className="antialiased min-h-screen flex flex-col relative z-0">
         <MotionProvider>
-          <CustomCursor />
           <AmbientBackground />
           {children}
         </MotionProvider>

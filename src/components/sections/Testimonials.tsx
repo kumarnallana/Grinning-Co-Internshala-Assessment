@@ -4,7 +4,7 @@ import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { TESTIMONIALS } from "@/lib/constants";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { m, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Star } from "lucide-react";
 
 export function Testimonials() {
@@ -25,13 +25,13 @@ export function Testimonials() {
       
       {/* Subtle parallax background texture */}
       {!prefersReducedMotion && (
-        <m.div 
+        <motion.div 
           style={{ y }}
           className="absolute inset-0 opacity-5 pointer-events-none"
           aria-hidden="true"
         >
           <div className="w-full h-[200%] bg-[url('/images/story_bg_1787075461396.jpg')] bg-repeat bg-[length:400px_400px]" />
-        </m.div>
+        </motion.div>
       )}
 
       <Container className="relative z-10 w-full mb-16 sm:mb-24">
@@ -64,17 +64,15 @@ export function Testimonials() {
         className="w-full overflow-hidden cursor-grab active:cursor-grabbing pb-12"
         ref={scrollContainerRef}
       >
-        <m.div
+        <motion.div
           drag="x"
           dragConstraints={scrollContainerRef}
           className="flex gap-6 sm:gap-8 px-4 sm:px-8 md:px-16 w-max"
         >
           {TESTIMONIALS.map((review, index) => (
-            <m.div 
+            <motion.div 
               key={index}
-              whileHover={prefersReducedMotion ? undefined : { y: -8 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="flex-shrink-0 w-[300px] sm:w-[400px] md:w-[500px] bg-secondary/30 hover:bg-white/5 p-8 sm:p-12 rounded-sm border border-white/5 flex flex-col justify-between transition-colors duration-300"
+              className="flex-shrink-0 w-[300px] sm:w-[400px] md:w-[500px] bg-secondary/30 hover:bg-white/5 p-8 sm:p-12 rounded-sm border border-white/5 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300"
             >
               <div className="mb-8">
                 <div className="flex gap-1 mb-6">
@@ -104,9 +102,9 @@ export function Testimonials() {
                   </div>
                 </div>
               </figcaption>
-            </m.div>
+            </motion.div>
           ))}
-        </m.div>
+        </motion.div>
       </div>
 
     </section>

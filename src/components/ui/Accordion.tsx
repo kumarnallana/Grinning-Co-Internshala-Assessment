@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { m, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Plus } from "lucide-react";
 
 export interface AccordionItem {
@@ -28,7 +28,7 @@ export function Accordion({ items }: AccordionProps) {
         const itemNumber = (index + 1).toString().padStart(2, "0");
 
         return (
-          <m.div 
+          <motion.div 
             key={item.question}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,18 +65,18 @@ export function Accordion({ items }: AccordionProps) {
                   ? "bg-highlight text-primary border-highlight shadow-[0_0_15px_rgba(201,161,90,0.4)]" 
                   : "bg-white/[0.04] text-muted-foreground border-white/10 group-hover:border-highlight/40 group-hover:text-highlight"
               }`}>
-                <m.div
+                <motion.div
                   animate={{ rotate: isOpen ? 45 : 0 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
-                </m.div>
+                </motion.div>
               </div>
             </button>
 
             <AnimatePresence initial={false}>
               {isOpen && (
-                <m.div
+                <motion.div
                   id={`faq-answer-${index}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
@@ -91,10 +91,10 @@ export function Accordion({ items }: AccordionProps) {
                       {item.answer}
                     </p>
                   </div>
-                </m.div>
+                </motion.div>
               )}
             </AnimatePresence>
-          </m.div>
+          </motion.div>
         );
       })}
     </div>

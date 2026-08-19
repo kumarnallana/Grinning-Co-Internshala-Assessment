@@ -4,7 +4,6 @@ import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { PRICING_PLANS } from "@/lib/constants";
-import { CountUpPrice } from "@/components/ui/CountUpPrice";
 
 export function Pricing() {
   return (
@@ -47,7 +46,7 @@ export function Pricing() {
                 <h3 className="font-display text-3xl text-foreground mb-4">{plan.name}</h3>
                 
                 <div className="flex items-baseline gap-2 mb-2">
-                  <CountUpPrice value={plan.price} className="font-display text-5xl lg:text-6xl text-foreground tracking-tight" />
+                  <span className="font-display text-5xl lg:text-6xl text-foreground tracking-tight">{plan.price}</span>
                 </div>
                 <span className="text-sm tracking-wide text-muted-foreground uppercase">{plan.period}</span>
               </div>

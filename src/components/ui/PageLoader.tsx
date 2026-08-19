@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { m, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 export function PageLoader() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -38,7 +38,7 @@ export function PageLoader() {
   return (
     <AnimatePresence>
       {isLoading && (
-        <m.div
+        <motion.div
           key="loader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -47,7 +47,7 @@ export function PageLoader() {
         >
           {/* Subtle Branded Loading State */}
           <div className="flex flex-col items-center gap-6">
-            <m.div 
+            <motion.div 
               className="w-12 h-12 rounded-full border border-highlight/20 border-t-highlight"
               animate={{ rotate: 360 }}
               transition={{ duration: 1.5, ease: "linear", repeat: Infinity }}
@@ -56,7 +56,7 @@ export function PageLoader() {
               Preparing Ritual
             </span>
           </div>
-        </m.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

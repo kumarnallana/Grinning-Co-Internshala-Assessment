@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { m, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { NAVIGATION } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
@@ -90,7 +90,7 @@ export function Navbar() {
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <m.div
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -135,7 +135,7 @@ export function Navbar() {
                 <Button variant="outline" size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>Log In</Button>
               </div>
             </nav>
-          </m.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
