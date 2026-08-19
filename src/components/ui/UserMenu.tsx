@@ -2,9 +2,8 @@
 
 import * as React from "react";
 import { useDemoSession } from "@/context/DemoSessionContext";
-import { User, LogOut, Settings, ChevronDown } from "lucide-react";
+import { LogOut, Settings, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from "./Button";
 
 export function UserMenu() {
   const { demoUser, logoutDemo } = useDemoSession();

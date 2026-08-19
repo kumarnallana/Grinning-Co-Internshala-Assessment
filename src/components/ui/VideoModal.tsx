@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Loader2 } from "lucide-react";
+import { X, Loader2, Play } from "lucide-react";
+import { MEDIA } from "@/data/media";
 
 interface VideoModalProps {
   isOpen: boolean;
@@ -60,43 +61,43 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
             className="relative w-full max-w-5xl aspect-video bg-primary/50 border border-white/10 rounded-2xl overflow-hidden shadow-2xl z-10 flex items-center justify-center"
             ref={modalRef}
           >
-            {/* 
-              TODO: Add actual video asset here. 
-              The requested 'Watch the Ritual' asset was not found in the project.
-              Swap the <iframe> or <video> src when the asset is provided.
-            */}
-            
-            {isLoading && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-highlight gap-4 z-10 bg-primary">
-                <Loader2 className="w-8 h-8 animate-spin" />
-                <p className="text-sm font-display tracking-widest uppercase">Loading Ritual...</p>
+            {/* Intentional Media Handling based on Centralized Data */}
+            {MEDIA.ritualVideo.src ? (
+              <>
+                {isLoading && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-highlight gap-4 z-10 bg-primary">
+                    <Loader2 className="w-8 h-8 animate-spin" />
+                    <p className="text-sm font-display tracking-widest uppercase">Loading Ritual...</p>
+                  </div>
+                )}
+                <video
+                  src={MEDIA.ritualVideo.src}
+                  poster={MEDIA.ritualVideo.poster}
+                  autoPlay
+                  controls
+                  className="absolute inset-0 w-full h-full object-cover z-20"
+                  title={MEDIA.ritualVideo.title}
+                  onLoadedData={() => setIsLoading(false)}
+                />
+              </>
+            ) : (
+              /* Intentional Unavailable State */
+              <div 
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url('${MEDIA.ritualVideo.poster}')` }}
+              >
+                <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
+                  <p className="text-highlight text-sm tracking-[0.2em] uppercase mb-4 font-semibold">Media Unavailable</p>
+                  <h3 className="text-2xl sm:text-3xl font-display text-white mb-2">{MEDIA.ritualVideo.title}</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto mb-6">
+                    The ritual sequence is currently unavailable. Please check back later.
+                  </p>
+                  <div className="text-xs text-muted-foreground/50 border border-white/10 rounded-full px-4 py-2 bg-black/20">
+                    To enable this feature, provide a valid <code className="text-highlight">src</code> in <code className="text-highlight">src/data/media.ts</code>
+                  </div>
+                </div>
               </div>
             )}
-            
-            {/* Fallback Placeholder (Since we don't have the video asset) */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url('/images/hero_bg_1787072201282.jpg')" }}
-            >
-              <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center p-8 text-center">
-                <p className="text-highlight text-sm tracking-[0.2em] uppercase mb-4 font-semibold">Video Asset Missing</p>
-                <h3 className="text-2xl sm:text-3xl font-display text-white mb-2">The Nightly Ritual</h3>
-                <p className="text-muted-foreground max-w-md mx-auto">
-                  A high-quality video asset was not found in the repository. Please insert the correct video source in <code className="text-xs bg-white/10 px-1 py-0.5 rounded">src/components/ui/VideoModal.tsx</code>.
-                </p>
-              </div>
-            </div>
-
-            {/* This is how the real video would look: 
-            <iframe
-              src="YOUR_VIDEO_URL_HERE?autoplay=1&controls=1&rel=0"
-              className="absolute inset-0 w-full h-full object-cover z-20"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              title="The Redroot Ritual"
-              onLoad={() => setIsLoading(false)}
-            />
-            */}
 
             <button
               onClick={onClose}

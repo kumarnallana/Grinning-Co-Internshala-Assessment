@@ -90,8 +90,8 @@ export function Navbar() {
                 Log In
               </Button>
             )}
-            <Button size="sm" asChild>
-              <a href="#join">Begin Ritual</a>
+            <Button size="sm" onClick={() => { window.location.href = '#pricing'; }}>
+              Begin Ritual
             </Button>
           </div>
 
@@ -152,8 +152,15 @@ export function Navbar() {
                 ))}
               </ul>
               <div className="flex flex-col gap-4 mt-8">
-                <Button size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)} asChild>
-                  <a href="#pricing">Begin Ritual</a>
+                <Button 
+                  size="lg" 
+                  className="w-full" 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.location.href = '#pricing';
+                  }}
+                >
+                  Begin Ritual
                 </Button>
                 {isDemoAuthenticated ? (
                   <div className="flex justify-center">

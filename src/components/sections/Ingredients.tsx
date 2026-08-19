@@ -25,7 +25,7 @@ function ActiveBotanicalStage({ activeIndex }: { activeIndex: number }) {
             animate={{ opacity: 1, y: 0, pointerEvents: "auto" }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -12, pointerEvents: "none" }}
             transition={prefersReducedMotion ? { duration: 0.01 } : { duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            onAnimationStart={(def) => {
+            onAnimationStart={() => {
               // During exit, Framer Motion animates the element but it stays in DOM until exit finishes.
               // To ensure it doesn't receive pointer events, we added pointerEvents: "none" to the exit state above.
             }}
