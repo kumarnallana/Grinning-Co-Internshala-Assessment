@@ -2,50 +2,25 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { PRODUCTS } from "@/lib/constants";
+import { PRODUCTS, Product } from "@/data/products";
 import { Button } from "@/components/ui/Button";
 import { motion, useReducedMotion, useTransform, useMotionValue, useSpring } from "framer-motion";
 
-const PRODUCT_IMAGES = [
-  "/images/product_1_1787073157894.jpg",
-  "/images/product_2_1787073183249.jpg",
-  "/images/product_3_1787073202462.jpg",
-];
-
-const BLEND_THEMES = [
-  {
-    glow: "rgba(59, 94, 125, 0.35)",
-    badge: "Oceanic Twilight",
-  },
-  {
-    glow: "rgba(201, 161, 90, 0.3)",
-    badge: "Warm Golden Spice",
-  },
-  {
-    glow: "rgba(109, 59, 125, 0.35)",
-    badge: "Midnight Botanical",
-  },
-];
-
 function ProductImageCard({ 
-  src, 
-  alt, 
-  theme, 
+  product,
   prefersReducedMotion 
 }: { 
-  src: string; 
-  alt: string; 
-  theme: typeof BLEND_THEMES[0]; 
+  product: Product;
   prefersReducedMotion: boolean | null;
 }) {
   const cardRef = React.useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), { stiffness: 150, damping: 20 });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), { stiffness: 150, damping: 20 });
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { stiffness: 150, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { stiffness: 150, damping: 20 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current || prefersReducedMotion) return;
@@ -66,11 +41,11 @@ function ProductImageCard({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative h-[45vh] lg:h-[62vh] w-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer"
+      className="relative h-[45vh] lg:h-[60vh] w-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer"
       style={{ perspective: 1200 }}
     >
       <motion.div
-        className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 transition-colors duration-700"
+        className="relative w-full h-full rounded-2xl overflow-hidden border border-white/15 transition-colors duration-700 bg-secondary/20"
         style={{
           rotateX: prefersReducedMotion ? 0 : rotateX,
           rotateY: prefersReducedMotion ? 0 : rotateY,
@@ -78,8 +53,8 @@ function ProductImageCard({
         }}
       >
         <Image
-          src={src}
-          alt={alt}
+          src={product.image}
+          alt={`Apothecary jar packaging for Redroot ${product.name} - ${product.tagline}`}
           fill
           className="object-cover object-center mix-blend-luminosity opacity-85 transition-transform duration-700 group-hover:scale-105"
           sizes="(max-width: 1024px) 100vw, 50vw"
@@ -88,34 +63,37 @@ function ProductImageCard({
 
         {/* Specular Sheen Sweep on hover */}
         {!prefersReducedMotion && (
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none mix-blend-overlay bg-gradient-to-tr from-transparent via-white to-transparent" />
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-700 pointer-events-none mix-blend-overlay bg-gradient-to-tr from-transparent via-white to-transparent" />
         )}
+
+        {/* Blend Theme Badge */}
+        <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-[10px] uppercase tracking-[0.2em] text-highlight flex items-center gap-1.5 shadow-lg">
+          <Sparkles className="w-3 h-3 text-highlight" />
+          <span>{product.badge}</span>
+        </div>
       </motion.div>
 
       {/* Signature Blend Atmospheric Glow */}
       <div 
-        className="absolute inset-0 blur-[90px] rounded-full z-[-1] scale-75 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-        style={{ backgroundColor: theme.glow }}
+        className="absolute inset-0 blur-[100px] rounded-full z-[-1] scale-75 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        style={{ backgroundColor: product.accentGlow }}
       />
     </div>
   );
 }
 
-function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: number }) {
+function ProductRow({ product, index }: { product: Product, index: number }) {
   const ref = React.useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  const theme = BLEND_THEMES[index] || BLEND_THEMES[0];
 
   return (
-    <div ref={ref} className="relative min-h-[75vh] flex items-center py-16 sm:py-20 border-b border-muted/20 last:border-0">
+    <div ref={ref} className="relative min-h-[70vh] flex items-center py-16 sm:py-20 border-b border-muted/20 last:border-0">
       <div className={`w-full grid lg:grid-cols-2 gap-12 lg:gap-24 items-center ${index % 2 !== 0 ? 'lg:grid-flow-col-dense' : ''}`}>
         
         {/* Tangible 3D Image Container */}
         <div className={`relative w-full ${index % 2 !== 0 ? 'lg:col-start-2' : ''}`}>
           <ProductImageCard
-            src={PRODUCT_IMAGES[index]}
-            alt={`Packaging for Redroot ${product.name}`}
-            theme={theme}
+            product={product}
             prefersReducedMotion={prefersReducedMotion}
           />
         </div>
@@ -134,7 +112,7 @@ function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: nu
             </span>
             <span className="w-8 h-px bg-highlight/30" />
             <span className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium">
-              {theme.badge}
+              {product.tagline}
             </span>
           </div>
           
@@ -145,7 +123,7 @@ function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: nu
             {product.price}
           </span>
 
-          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-8 max-w-lg">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-8 max-w-lg font-light">
             {product.description}
           </p>
 
@@ -159,7 +137,7 @@ function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: nu
 
           <div>
             <Button variant="outline" size="lg" className="w-full sm:w-auto gap-2 border-muted-foreground/30 hover:bg-highlight hover:text-primary hover:border-highlight group/btn">
-              Explore Blend
+              Explore Formulation
               <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
             </Button>
           </div>
@@ -181,7 +159,7 @@ export function ProductShowcase() {
           <p className="font-display text-4xl sm:text-5xl text-foreground mb-6">
             The architecture of rest.
           </p>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed font-light">
             Three distinct formulations. Each designed to target specific stages of sensory deceleration and mental unspooling.
           </p>
         </div>

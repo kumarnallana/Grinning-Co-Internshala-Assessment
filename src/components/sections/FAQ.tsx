@@ -2,53 +2,19 @@
 
 import * as React from "react";
 import { Container } from "@/components/ui/Container";
-import { Accordion, AccordionItem } from "@/components/ui/Accordion";
+import { FAQS, FAQ_CATEGORIES } from "@/data/faq";
+import { Accordion } from "@/components/ui/Accordion";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 import { motion } from "framer-motion";
 import { MessageSquare, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
-const CATEGORIZED_FAQS: AccordionItem[] = [
-  {
-    question: "Is Redroot caffeine-free?",
-    answer: "Absolutely. Redroot is intentionally formulated to be the antithesis of energy drinks. Every blend is 100% caffeine-free and designed to promote deep rest without pharmacological grogginess.",
-    category: "Ingredients & Biology"
-  },
-  {
-    question: "When should I drink it?",
-    answer: "We recommend beginning your Redroot ritual 45 to 60 minutes before you intend to sleep. This gives the potent adaptogens and calming botanicals time to actively decelerate your nervous system.",
-    category: "The Ritual"
-  },
-  {
-    question: "What does it taste like?",
-    answer: "Unlike medicinal sleep aids, Redroot is a sensory luxury. It features deep, earthy notes with subtle hints of warming spices and calm florals, designed to satisfy the palate while signaling rest.",
-    category: "Ingredients & Biology"
-  },
-  {
-    question: "How does the ritual work?",
-    answer: "It's a four-step process: Steep the tea, Dim the lights, Breathe deeply, and allow yourself to Sleep. The physical, deliberate act of the ritual is as scientifically vital as the bio-actives.",
-    category: "The Ritual"
-  },
-  {
-    question: "How is it shipped?",
-    answer: "Orders are processed within 24 hours and shipped via carbon-neutral priority couriers in custom UV-protective, eco-minimalist packaging to preserve the freshness of raw botanicals.",
-    category: "Orders & Membership"
-  },
-  {
-    question: "Can I pause or customize my subscription?",
-    answer: "Yes. The Monthly Ritual membership offers full flexibility: pause, skip, or switch blend profiles anytime with a single click, plus complimentary priority shipping on every order.",
-    category: "Orders & Membership"
-  }
-];
-
-const CATEGORIES = ["All", "The Ritual", "Ingredients & Biology", "Orders & Membership"];
-
 export function FAQ() {
   const [selectedCategory, setSelectedCategory] = React.useState("All");
 
   const filteredFaqs = React.useMemo(() => {
-    if (selectedCategory === "All") return CATEGORIZED_FAQS;
-    return CATEGORIZED_FAQS.filter(faq => faq.category === selectedCategory);
+    if (selectedCategory === "All") return FAQS;
+    return FAQS.filter(faq => faq.category === selectedCategory);
   }, [selectedCategory]);
 
   return (
@@ -65,14 +31,14 @@ export function FAQ() {
           <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground tracking-tight mb-6">
             Frequently asked questions.
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <p className="text-lg text-muted-foreground leading-relaxed font-light">
             Everything you need to know about the formulation, circadian science, and ritual delivery.
           </p>
         </RevealOnScroll>
 
         {/* Category Filters */}
         <RevealOnScroll delay={0.1} className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-14">
-          {CATEGORIES.map((category) => {
+          {FAQ_CATEGORIES.map((category) => {
             const isSelected = selectedCategory === category;
             return (
               <button
@@ -115,7 +81,7 @@ export function FAQ() {
                 <h3 className="font-display text-xl sm:text-2xl text-foreground mb-1.5">
                   Have a specific botanical inquiry?
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-md font-light">
                   Our master herbalists are available to guide your custom evening formulation.
                 </p>
               </div>
