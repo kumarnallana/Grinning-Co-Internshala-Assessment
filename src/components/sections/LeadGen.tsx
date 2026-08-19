@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "motion/react";
 import { Mail, ArrowRight, CheckCircle2, ShieldCheck, Moon, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -52,7 +52,7 @@ export function LeadGen() {
 
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
-              <motion.div
+              <m.div
                 key="form"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -153,9 +153,9 @@ export function LeadGen() {
                     </div>
                   </div>
                 </form>
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div
+              <m.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -177,7 +177,7 @@ export function LeadGen() {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/10 text-xs text-muted-foreground tracking-wider uppercase">
                   <span>Confirmation dispatched to {email}</span>
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 

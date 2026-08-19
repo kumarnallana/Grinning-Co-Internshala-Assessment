@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PRODUCTS, Product } from "@/data/products";
 import { Button } from "@/components/ui/Button";
-import { motion, useReducedMotion, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { m, useReducedMotion, useTransform, useMotionValue, useSpring } from "motion/react";
 
 function ProductImageCard({ 
   product,
@@ -31,6 +31,14 @@ function ProductImageCard({
     mouseY.set(y);
   };
 
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    (e.target as HTMLElement).style.willChange = "transform";
+  };
+
+  const handlePointerLeave = (e: React.PointerEvent) => {
+    (e.target as HTMLElement).style.willChange = "auto";
+  };
+
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
@@ -44,7 +52,13 @@ function ProductImageCard({
       className="relative h-[45vh] lg:h-[60vh] w-full rounded-2xl overflow-hidden shadow-2xl group cursor-pointer"
       style={{ perspective: 1200 }}
     >
-      <motion.div
+      <m.div
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        initial={prefersReducedMotion ? { opacity: 1 } : { clipPath: "inset(0 100% 0 0)" }}
+        whileInView={prefersReducedMotion ? undefined : { clipPath: "inset(0 0% 0 0)" }}
+        transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: true }}
         className="relative w-full h-full rounded-2xl overflow-hidden border border-white/15 transition-colors duration-700 bg-secondary/20"
         style={{
           rotateX: prefersReducedMotion ? 0 : rotateX,
@@ -71,7 +85,7 @@ function ProductImageCard({
           <Sparkles className="w-3 h-3 text-highlight" />
           <span>{product.badge}</span>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Signature Blend Atmospheric Glow */}
       <div 
@@ -99,7 +113,7 @@ function ProductRow({ product, index }: { product: Product, index: number }) {
         </div>
 
         {/* Contextual Information Sequence */}
-        <motion.div 
+        <m.div 
           className={`relative z-10 p-4 sm:p-8 lg:p-0 ${index % 2 !== 0 ? 'lg:col-start-1' : ''}`}
           initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
           whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
@@ -141,7 +155,7 @@ function ProductRow({ product, index }: { product: Product, index: number }) {
               <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
             </Button>
           </div>
-        </motion.div>
+        </m.div>
 
       </div>
     </div>

@@ -1,10 +1,42 @@
+"use client";
+
 import Image from "next/image";
+import { useScroll, useMotionValueEvent } from "motion/react";
 
 export function AmbientBackground() {
+  const { scrollYProgress } = useScroll();
+
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    // Interpolate atmosphere target values based on rough scroll regions
+    // This runs completely outside React's render cycle!
+    let temp = 0;
+    let noise = 0;
+    
+    if (progress < 0.2) {
+      temp = 0.2;
+      noise = 0.6;
+    } else if (progress < 0.6) {
+      temp = 0.5;
+      noise = 0.3;
+    } else {
+      // Warmest/cleanest near bottom CTA
+      temp = 0.8;
+      noise = 0.1;
+    }
+    
+    if (typeof document !== 'undefined') {
+      document.documentElement.style.setProperty("--atmosphere-temp", temp.toString());
+      document.documentElement.style.setProperty("--atmosphere-noise", noise.toString());
+    }
+  });
+
   return (
     <div className="fixed inset-0 z-[-1] pointer-events-none" aria-hidden="true">
       {/* Base Global Background Texture */}
       <div className="absolute inset-0 bg-primary" />
+      
+      {/* Dynamic CSS Atmosphere Layer (P2) */}
+      <div className="absolute inset-0 atmosphere-layer" />
       
       {/* Very subtle background image across the whole page to prevent flat colors */}
       <div className="absolute inset-0 opacity-[0.15] mix-blend-luminosity">

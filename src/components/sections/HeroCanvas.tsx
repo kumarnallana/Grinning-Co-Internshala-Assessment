@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "motion/react";
 
 interface Particle {
   id: number;
@@ -41,7 +41,7 @@ export function HeroCanvas() {
       aria-hidden="true"
     >
       {particles.map((p) => (
-        <motion.span
+        <m.span
           key={p.id}
           className={`absolute rounded-full ${p.isGold ? 'bg-highlight/70 shadow-[0_0_8px_rgba(201,161,90,0.5)]' : 'bg-foreground/45'}`}
           style={{

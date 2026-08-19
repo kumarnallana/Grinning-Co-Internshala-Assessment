@@ -1,26 +1,22 @@
 "use client";
 
-import { MotionConfig } from "framer-motion";
+import { MotionConfig, LazyMotion, domMax } from "motion/react";
 
 /**
  * MotionProvider
  *
  * Sets reducedMotion="user" so Framer Motion respects prefers-reduced-motion
- * natively, and critically disables WAAPI delegation by setting
- * `reducedMotion` plus forcing all animations through the JS engine.
- *
- * The `reducedMotion="user"` option alone does not stop WAAPI from being used.
- * We also pass `transition={{ type: "tween" }}` as the global default, which
- * prevents Framer Motion from ever using spring physics that produce
- * non-monotonically-decreasing WAAPI keyframe offsets on mount.
+ * natively. Wraps the app in LazyMotion for bundle size optimization.
  */
 export function MotionProvider({ children }: { children: React.ReactNode }) {
   return (
-    <MotionConfig
-      reducedMotion="user"
-      transition={{ type: "tween", ease: "easeOut", duration: 0.7 }}
-    >
-      {children}
-    </MotionConfig>
+    <LazyMotion features={domMax}>
+      <MotionConfig
+        reducedMotion="user"
+        transition={{ type: "tween", ease: "easeOut", duration: 0.7 }}
+      >
+        {children}
+      </MotionConfig>
+    </LazyMotion>
   );
 }

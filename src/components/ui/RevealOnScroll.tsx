@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface RevealOnScrollProps {
@@ -45,7 +45,7 @@ export function RevealOnScroll({
   };
 
   return (
-    <motion.div
+    <m.div
       className={cn("w-full", className)}
       variants={getVariants()}
       initial="hidden"
@@ -58,6 +58,6 @@ export function RevealOnScroll({
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
