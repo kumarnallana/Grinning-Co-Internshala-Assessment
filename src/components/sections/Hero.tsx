@@ -6,6 +6,11 @@ import { ArrowDown, Play } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import dynamic from "next/dynamic";
+
+const HeroCanvas = dynamic(() => import("./HeroCanvas").then(mod => mod.HeroCanvas), { 
+  ssr: false,
+});
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -20,6 +25,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden" aria-labelledby="hero-heading">
+      <HeroCanvas />
       {/* Background Image with Parallax */}
       <motion.div 
         className="absolute inset-0 z-0 origin-top"

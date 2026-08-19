@@ -10,8 +10,10 @@ export function Container({
   as: Component = "div",
   ...props
 }: ContainerProps) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Comp = Component as any;
   return (
-    <Component
+    <Comp
       className={cn(
         "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8",
         className

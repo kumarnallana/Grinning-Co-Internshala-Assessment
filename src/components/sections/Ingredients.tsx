@@ -5,56 +5,65 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { INGREDIENTS } from "@/lib/constants";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useSpring } from "framer-motion";
 
-export function Ingredients() {
-  const [activeImageIndex, setActiveImageIndex] = React.useState(0);
+function FormulaSection() {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end center"],
+    offset: ["start start", "end center"],
   });
 
-  // Simple scroll progress mapping to index for image switching
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  
   React.useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (latest) => {
-      if (latest < 0.33) setActiveImageIndex(0);
-      else if (latest < 0.66) setActiveImageIndex(1);
-      else setActiveImageIndex(2);
+      if (latest < 0.33) setActiveIndex(0);
+      else if (latest < 0.66) setActiveIndex(1);
+      else setActiveIndex(2);
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
 
+  // Subtle 2-4% parallax for the sticky image
+  const parallaxScale = useTransform(scrollYProgress, [0, 1], [1, 1.04]);
+
   return (
-    <section ref={containerRef} id="ingredients" className="py-24 sm:py-32 relative border-t border-muted/30">
-      <Container className="w-full">
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+    <section ref={containerRef} className="py-24 sm:py-32 relative h-[200vh]">
+      <Container className="w-full h-full relative">
+        <div className="sticky top-32 grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           
-          {/* Left: Sticky Image Context */}
-          <div className="lg:col-span-5 lg:sticky lg:top-32 relative h-[400px] lg:h-[600px] rounded-sm overflow-hidden bg-secondary/20 order-last lg:order-first border border-muted/30 mt-16 lg:mt-0">
-            {INGREDIENTS.map((ingredient, index) => (
-              <motion.div
-                key={ingredient.name}
-                initial={false}
-                animate={{ opacity: activeImageIndex === index ? 1 : 0, scale: activeImageIndex === index ? 1 : 1.05 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0 pointer-events-none"
-              >
-                <Image
-                  src={ingredient.image}
-                  alt={`Macro photography of ${ingredient.name}`}
-                  fill
-                  className="object-cover object-center mix-blend-luminosity opacity-70"
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
-              </motion.div>
-            ))}
+          {/* Left: Sticky Image Context with Parallax */}
+          <div className="lg:col-span-5 relative h-[400px] lg:h-[600px] rounded-sm overflow-hidden border border-muted/30">
+            <motion.div 
+              className="absolute inset-0 origin-center"
+              style={{ scale: prefersReducedMotion ? 1 : parallaxScale }}
+            >
+              {INGREDIENTS.map((ingredient, index) => (
+                <motion.div
+                  key={ingredient.name}
+                  initial={false}
+                  animate={{ opacity: activeIndex === index ? 1 : 0 }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0 pointer-events-none"
+                >
+                  <Image
+                    src={ingredient.image}
+                    alt={`Macro photography representing ${ingredient.role}`}
+                    fill
+                    className="object-cover object-center mix-blend-luminosity opacity-70"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent" />
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
 
-          {/* Right: Progressive Reveal Vertical List */}
-          <div className="lg:col-span-7 relative">
-            <RevealOnScroll className="mb-16">
+          {/* Right: Crossfading Text (No vertical lines) */}
+          <div className="lg:col-span-7 relative flex flex-col justify-center min-h-[400px] lg:min-h-[600px]">
+            <RevealOnScroll className="mb-12">
               <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
                 The Formula
               </h2>
@@ -64,42 +73,83 @@ export function Ingredients() {
               </p>
             </RevealOnScroll>
 
-            {/* Background track line */}
-            <div className="absolute left-0 top-32 bottom-8 w-px bg-muted-foreground/20 hidden sm:block" />
-
-            <div className="space-y-24 sm:space-y-32 ml-0 sm:ml-8">
+            <div className="relative h-[200px]">
               {INGREDIENTS.map((ingredient, index) => (
                 <motion.div
                   key={ingredient.name}
-                  className="relative group flex flex-col items-start pl-0 sm:pl-8"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
-                  variants={{
-                    hidden: { opacity: 0.3, x: -10, filter: "grayscale(100%)" },
-                    visible: { opacity: 1, x: 0, filter: "grayscale(0%)" }
+                  className="absolute inset-0"
+                  initial={false}
+                  animate={{ 
+                    opacity: activeIndex === index ? 1 : 0,
+                    y: activeIndex === index ? 0 : 20,
+                    pointerEvents: activeIndex === index ? "auto" : "none"
                   }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {/* Active highlight line indicator overlay */}
-                  <div className="absolute left-[-32px] top-0 bottom-0 w-px bg-highlight origin-top hidden sm:block scale-y-0 group-[[data-inview='true']]:scale-y-100 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
-
-                  <span className="block text-xs tracking-[0.2em] uppercase mb-4 text-highlight">
-                    0{index + 1} — {ingredient.role}
-                  </span>
-                  <h3 className="font-display text-4xl sm:text-5xl md:text-6xl text-foreground mb-6">
-                    {ingredient.name}
+                  <h3 className="font-display text-3xl text-foreground mb-4">
+                    {ingredient.role}
                   </h3>
-                  <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-xl">
-                    {ingredient.description}
+                  <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
+                    We select each element not just for its individual efficacy, but for how it synergizes with the rest of the formula to decelerate your nervous system.
                   </p>
                 </motion.div>
               ))}
             </div>
           </div>
-
         </div>
       </Container>
     </section>
+  );
+}
+
+function IngredientsHorizontalScroll() {
+  const targetRef = React.useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.66%"]);
+  // Add physics to the scroll for a smoother, high-end feel
+  const springX = useSpring(x, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
+  return (
+    <section ref={targetRef} className="relative h-[300vh] border-t border-muted/30">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        <motion.div 
+          style={{ x: prefersReducedMotion ? 0 : springX }} 
+          className="flex gap-32 px-[10vw] w-[300vw]"
+        >
+          {INGREDIENTS.map((ingredient, index) => (
+            <div key={ingredient.name} className="w-[80vw] sm:w-[60vw] lg:w-[40vw] flex-shrink-0 flex flex-col justify-center">
+              <span className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-6 block">
+                0{index + 1}
+              </span>
+              <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start md:items-end mb-8">
+                <h3 className="font-display text-6xl sm:text-7xl lg:text-8xl text-foreground whitespace-nowrap">
+                  {ingredient.name}
+                </h3>
+                <span className="text-xl text-muted-foreground italic mb-2 md:mb-4">
+                  {ingredient.role}
+                </span>
+              </div>
+              <div className="h-px w-full bg-muted-foreground/30 mb-8" />
+              <p className="text-2xl sm:text-3xl text-foreground/90 font-light leading-relaxed max-w-2xl">
+                {ingredient.description}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+export function Ingredients() {
+  return (
+    <>
+      <FormulaSection />
+      <IngredientsHorizontalScroll />
+    </>
   );
 }
