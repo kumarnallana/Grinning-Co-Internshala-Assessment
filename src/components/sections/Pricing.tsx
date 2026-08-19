@@ -46,10 +46,14 @@ export function Pricing() {
           {/* Right: Plan Selection */}
           <div className="space-y-6">
             {PRICING_PLANS.map((plan) => (
-              <button 
+              <div
                 key={plan.name}
+                role="radio"
+                aria-checked={selectedPlan.name === plan.name}
+                tabIndex={0}
                 onClick={() => setSelectedPlan(plan)}
-                className={`w-full text-left p-6 sm:p-8 rounded-sm border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight ${
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedPlan(plan); } }}
+                className={`w-full text-left p-6 sm:p-8 rounded-sm border transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight ${
                   selectedPlan.name === plan.name 
                     ? "border-highlight bg-secondary/30 scale-100 shadow-2xl shadow-highlight/5" 
                     : "border-muted/30 hover:border-muted/60 opacity-60 hover:opacity-100"
@@ -91,7 +95,7 @@ export function Pricing() {
                     </Button>
                   </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>
