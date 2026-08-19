@@ -46,7 +46,7 @@ test.describe('Redroot Interaction Matrix', () => {
       await expect(modal).toBeVisible();
 
       // Check intentional unavailable state
-      await expect(page.getByText('Media Unavailable')).toBeVisible();
+      await expect(page.getByText('Awaiting Final Asset')).toBeVisible();
 
       // Close modal
       const closeBtn = page.getByRole('button', { name: 'Close video modal' });

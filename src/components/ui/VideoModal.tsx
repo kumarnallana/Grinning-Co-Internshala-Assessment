@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Play } from "lucide-react";
+import { X, Film } from "lucide-react";
 import { MEDIA } from "@/data/media";
 
 interface VideoModalProps {
@@ -12,11 +12,13 @@ interface VideoModalProps {
 
 export function VideoModal({ isOpen, onClose }: VideoModalProps) {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [hasError, setHasError] = React.useState(false);
 
   React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
       setIsLoading(true);
+      setHasError(false);
     } else {
       document.body.style.overflow = "unset";
     }
@@ -58,9 +60,9 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl z-10"
+            className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden shadow-2xl z-10 bg-[#0A0D12]"
           >
-            {MEDIA.ritualVideo.src ? (
+            {MEDIA.ritualVideo.status === "ready" && MEDIA.ritualVideo.src && !hasError ? (
               <>
                 {isLoading && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-[#D4A86A] gap-4 z-10 bg-[#0A0D12]">
@@ -76,57 +78,55 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
                   className="absolute inset-0 w-full h-full object-cover z-20"
                   title={MEDIA.ritualVideo.title}
                   onLoadedData={() => setIsLoading(false)}
+                  onError={() => setHasError(true)}
                 />
               </>
-            ) : (
-              /* Premium "Coming Soon" Cinematic State */
+            ) : MEDIA.ritualVideo.status === "awaiting_asset" ? (
+              /* Intentional Awaiting Asset State */
               <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url('${MEDIA.ritualVideo.poster}')` }}
               >
                 {/* Layered cinematic vignettes */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/60" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/40" />
-
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/90" />
+                
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 gap-6">
-                  {/* Animated pulsing play button */}
-                  <div className="relative">
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-[#D4A86A]/30"
-                      animate={{ scale: [1, 1.5, 1], opacity: [0.6, 0, 0.6] }}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-[#D4A86A]/15"
-                      animate={{ scale: [1, 1.8, 1], opacity: [0.4, 0, 0.4] }}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
-                    />
-                    <div className="relative w-20 h-20 rounded-full bg-[#D4A86A]/20 border-2 border-[#D4A86A]/60 backdrop-blur-sm flex items-center justify-center">
-                      <Play className="w-8 h-8 text-[#D4A86A] fill-[#D4A86A] translate-x-0.5" />
-                    </div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 gap-8">
+                  {/* Premium Icon */}
+                  <div className="w-16 h-16 rounded-full bg-[#D4A86A]/10 border border-[#D4A86A]/30 flex items-center justify-center backdrop-blur-sm shadow-[0_0_30px_rgba(212,168,106,0.15)]">
+                    <Film className="w-6 h-6 text-[#D4A86A]" strokeWidth={1.5} />
                   </div>
 
-                  {/* Premium messaging */}
+                  {/* Messaging */}
                   <div className="max-w-lg">
-                    <p className="text-[#D4A86A] text-xs sm:text-sm tracking-[0.3em] uppercase font-semibold mb-3">
-                      The Ritual
+                    <p className="text-[#D4A86A] text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold mb-4">
+                      Brand Film in Production
                     </p>
-                    <h3 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-white mb-4 leading-tight">
-                      {MEDIA.ritualVideo.title}
+                    <h3 className="font-serif text-3xl sm:text-4xl text-white mb-4 leading-tight">
+                      Awaiting Final Asset
                     </h3>
-                    <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-sm mx-auto">
-                      An intimate journey through the nightly ritual. Filmed across three seasons of botanical harvest.
+                    <p className="text-white/60 text-sm sm:text-base leading-relaxed max-w-sm mx-auto font-light">
+                      The AI-generated cinematic ritual film is currently being rendered by the production environment.
                     </p>
                   </div>
-
-                  {/* Releasing soon badge */}
-                  <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A86A] animate-pulse" />
-                    <span className="text-xs text-white/70 tracking-[0.15em] uppercase font-medium">
-                      Releasing Soon
-                    </span>
-                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Unexpected Media Error State */
+              <div className="absolute inset-0 bg-[#0A0D12] flex flex-col items-center justify-center text-center p-8 gap-6 border border-red-900/30">
+                <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+                  <X className="w-6 h-6 text-red-400" />
+                </div>
+                <div className="max-w-lg">
+                  <p className="text-red-400/80 text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold mb-3">
+                    Playback Failed
+                  </p>
+                  <h3 className="font-serif text-2xl sm:text-3xl text-white mb-3 leading-tight">
+                    Unable to load media
+                  </h3>
+                  <p className="text-white/50 text-sm leading-relaxed max-w-sm mx-auto">
+                    The ritual film could not be loaded. Please check your connection or try again later.
+                  </p>
                 </div>
               </div>
             )}
