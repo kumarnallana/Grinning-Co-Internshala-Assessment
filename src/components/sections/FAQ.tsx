@@ -6,7 +6,7 @@ import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-24 sm:py-32 relative">
+    <section id="faq" className="pt-24 sm:pt-32 pb-0 relative">
       <Container>
         <RevealOnScroll className="mb-16 md:mb-24 text-center">
           <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">

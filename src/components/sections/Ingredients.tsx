@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { INGREDIENTS } from "@/lib/constants";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
-import { motion, useScroll, useTransform, useReducedMotion, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useSpring, useMotionTemplate } from "framer-motion";
 
 function FormulaSection() {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ function FormulaSection() {
   const parallaxScale = useTransform(scrollYProgress, [0, 1], [1, 1.04]);
 
   return (
-    <section ref={containerRef} className="py-24 sm:py-32 relative h-[200vh]">
+    <section ref={containerRef} className="pt-24 sm:pt-32 pb-0 relative h-[200vh] mb-[20vh]">
       <Container className="w-full h-full relative">
         <div className="sticky top-32 grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           
@@ -109,16 +109,17 @@ function IngredientsHorizontalScroll() {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.66%"]);
+  const scrollPercent = useTransform(scrollYProgress, [0, 1], [0, 100]);
   // Add physics to the scroll for a smoother, high-end feel
-  const springX = useSpring(x, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const springScroll = useSpring(scrollPercent, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const transform = useMotionTemplate`translateX(calc(-${springScroll}% + ${springScroll}vw))`;
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] border-t border-muted/30">
+    <section ref={targetRef} className="relative h-[200vh] border-t border-muted/30">
       <div className="sticky top-0 h-screen flex items-center overflow-hidden">
         <motion.div 
-          style={{ x: prefersReducedMotion ? 0 : springX }} 
-          className="flex gap-32 px-[10vw] w-[300vw]"
+          style={{ transform: prefersReducedMotion ? "none" : transform }} 
+          className="flex gap-32 px-[10vw] w-max"
         >
           {INGREDIENTS.map((ingredient, index) => (
             <div key={ingredient.name} className="w-[80vw] sm:w-[60vw] lg:w-[40vw] flex-shrink-0 flex flex-col justify-center">

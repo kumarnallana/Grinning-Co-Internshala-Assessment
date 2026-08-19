@@ -25,11 +25,11 @@ export function FinalCTA() {
   const jarY = useTransform(scrollYProgress, [0.2, 0.5], [100, 0]);
   const jarScale = useTransform(scrollYProgress, [0.2, 1], [0.95, 1.05]);
 
-  const textOpacity = useTransform(scrollYProgress, [0.5, 0.7], [0, 1]);
-  const textScale = useTransform(scrollYProgress, [0.5, 0.7], [0.95, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0.6, 0.7], [0, 1]);
+  const textScale = useTransform(scrollYProgress, [0.6, 0.7], [0.95, 1]);
 
-  const ctaOpacity = useTransform(scrollYProgress, [0.7, 0.85], [0, 1]);
-  const ctaY = useTransform(scrollYProgress, [0.7, 0.85], [20, 0]);
+  const ctaOpacity = useTransform(scrollYProgress, [0.75, 0.85], [0, 1]);
+  const ctaY = useTransform(scrollYProgress, [0.75, 0.85], [20, 0]);
 
   return (
     <section ref={containerRef} className="relative h-[200vh]">

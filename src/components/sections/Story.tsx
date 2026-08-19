@@ -30,7 +30,7 @@ export function Story() {
   const text2Y = useTransform(scrollYProgress, [0.5, 0.6], [30, 0]);
 
   return (
-    <section ref={containerRef} id="story" className="relative flex items-center justify-center py-24 sm:py-32">
+    <section ref={containerRef} id="story" className="pt-24 sm:pt-32 pb-0 relative overflow-hidden">
       {/* Full-bleed background with mask reveal */}
       <motion.div 
         className="absolute inset-0 z-0 overflow-hidden"

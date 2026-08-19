@@ -7,7 +7,7 @@ import { PRICING_PLANS } from "@/lib/constants";
 
 export function Pricing() {
   return (
-    <section className="pt-12 sm:pt-16 pb-24 sm:pb-32 relative border-t border-muted/30">
+    <section className="pt-24 sm:pt-32 pb-0 relative border-t border-muted/30">
       <Container>
         <div className="mb-16 md:mb-24 text-center max-w-2xl mx-auto">
           <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export function HowItWorks() {
   return (
-    <section id="ritual" className="py-24 sm:py-32 relative">
+    <section id="ritual" className="pt-24 sm:pt-32 pb-0 relative">
       <div className="absolute inset-0 z-0 bg-secondary/5" />
 
       <Container className="relative z-10 w-full">

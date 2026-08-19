@@ -21,7 +21,7 @@ export function Testimonials() {
   const y = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
-    <section ref={containerRef} id="reviews" className="pt-24 sm:pt-32 pb-12 relative overflow-hidden text-foreground border-t border-muted/30">
+    <section ref={containerRef} id="reviews" className="pt-24 sm:pt-32 pb-0 relative overflow-hidden text-foreground border-t border-muted/30">
       
       {/* Subtle parallax background texture */}
       {!prefersReducedMotion && (
@@ -72,9 +72,7 @@ export function Testimonials() {
           {TESTIMONIALS.map((review, index) => (
             <motion.div 
               key={index}
-              className="flex-shrink-0 w-[300px] sm:w-[400px] md:w-[500px] bg-secondary/30 p-8 sm:p-12 rounded-sm border border-white/5 flex flex-col justify-between"
-              whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
-              transition={{ duration: 0.3 }}
+              className="flex-shrink-0 w-[300px] sm:w-[400px] md:w-[500px] bg-secondary/30 hover:bg-white/5 p-8 sm:p-12 rounded-sm border border-white/5 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300"
             >
               <div className="mb-8">
                 <div className="flex gap-1 mb-6">
