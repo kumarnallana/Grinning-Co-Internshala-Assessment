@@ -66,7 +66,10 @@ export function FinalCTA() {
             <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
             
             {/* Heavy Text-safe Scrim for WCAG AA contrast over the image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-transparent pointer-events-none" />
+            
+            {/* Atmospheric Midnight Plum Halo */}
+            <div className="absolute inset-0 bg-[#6d3b7d]/15 blur-[120px] rounded-full scale-90 pointer-events-none" />
           </div>
         </motion.div>
 

@@ -21,7 +21,7 @@ export function Testimonials() {
   const y = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
-    <section ref={containerRef} id="reviews" className="pt-24 sm:pt-32 pb-0 relative overflow-hidden text-foreground border-t border-muted/30">
+    <section ref={containerRef} id="reviews" className="pt-24 sm:pt-32 pb-12 relative overflow-hidden text-foreground border-t border-muted/30">
       
       {/* Subtle parallax background texture */}
       {!prefersReducedMotion && (

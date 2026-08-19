@@ -1,24 +1,131 @@
+"use client";
+
 import * as React from "react";
 import { Container } from "@/components/ui/Container";
-import { FAQS } from "@/lib/constants";
-import { Accordion } from "@/components/ui/Accordion";
+import { Accordion, AccordionItem } from "@/components/ui/Accordion";
 import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { motion } from "framer-motion";
+import { MessageSquare, ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+
+const CATEGORIZED_FAQS: AccordionItem[] = [
+  {
+    question: "Is Redroot caffeine-free?",
+    answer: "Absolutely. Redroot is intentionally formulated to be the antithesis of energy drinks. Every blend is 100% caffeine-free and designed to promote deep rest without pharmacological grogginess.",
+    category: "Ingredients & Biology"
+  },
+  {
+    question: "When should I drink it?",
+    answer: "We recommend beginning your Redroot ritual 45 to 60 minutes before you intend to sleep. This gives the potent adaptogens and calming botanicals time to actively decelerate your nervous system.",
+    category: "The Ritual"
+  },
+  {
+    question: "What does it taste like?",
+    answer: "Unlike medicinal sleep aids, Redroot is a sensory luxury. It features deep, earthy notes with subtle hints of warming spices and calm florals, designed to satisfy the palate while signaling rest.",
+    category: "Ingredients & Biology"
+  },
+  {
+    question: "How does the ritual work?",
+    answer: "It's a four-step process: Steep the tea, Dim the lights, Breathe deeply, and allow yourself to Sleep. The physical, deliberate act of the ritual is as scientifically vital as the bio-actives.",
+    category: "The Ritual"
+  },
+  {
+    question: "How is it shipped?",
+    answer: "Orders are processed within 24 hours and shipped via carbon-neutral priority couriers in custom UV-protective, eco-minimalist packaging to preserve the freshness of raw botanicals.",
+    category: "Orders & Membership"
+  },
+  {
+    question: "Can I pause or customize my subscription?",
+    answer: "Yes. The Monthly Ritual membership offers full flexibility: pause, skip, or switch blend profiles anytime with a single click, plus complimentary priority shipping on every order.",
+    category: "Orders & Membership"
+  }
+];
+
+const CATEGORIES = ["All", "The Ritual", "Ingredients & Biology", "Orders & Membership"];
 
 export function FAQ() {
+  const [selectedCategory, setSelectedCategory] = React.useState("All");
+
+  const filteredFaqs = React.useMemo(() => {
+    if (selectedCategory === "All") return CATEGORIZED_FAQS;
+    return CATEGORIZED_FAQS.filter(faq => faq.category === selectedCategory);
+  }, [selectedCategory]);
+
   return (
-    <section id="faq" className="pt-24 sm:pt-32 pb-0 relative">
-      <Container>
-        <RevealOnScroll className="mb-16 md:mb-24 text-center">
-          <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
-            Clarity
-          </h2>
-          <p className="font-display text-4xl sm:text-5xl text-foreground">
+    <section id="faq" className="py-24 sm:py-32 relative overflow-hidden">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[600px] bg-highlight/5 blur-[140px] rounded-full pointer-events-none z-0" />
+
+      <Container className="relative z-10">
+        <RevealOnScroll className="mb-14 text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-highlight/10 border border-highlight/20 text-xs font-semibold uppercase tracking-[0.2em] text-highlight mb-6">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Clarity & Guidance</span>
+          </div>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl text-foreground tracking-tight mb-6">
             Frequently asked questions.
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            Everything you need to know about the formulation, circadian science, and ritual delivery.
           </p>
         </RevealOnScroll>
 
-        <RevealOnScroll delay={0.2}>
-          <Accordion items={FAQS} />
+        {/* Category Filters */}
+        <RevealOnScroll delay={0.1} className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-14">
+          {CATEGORIES.map((category) => {
+            const isSelected = selectedCategory === category;
+            return (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`relative px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight ${
+                  isSelected 
+                    ? "text-primary font-semibold" 
+                    : "text-muted-foreground hover:text-foreground bg-white/[0.02] hover:bg-white/[0.05] border border-white/5"
+                }`}
+              >
+                {isSelected && (
+                  <motion.div
+                    layoutId="faq-category-pill"
+                    className="absolute inset-0 rounded-full bg-highlight shadow-[0_0_20px_rgba(201,161,90,0.35)]"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{category}</span>
+              </button>
+            );
+          })}
+        </RevealOnScroll>
+
+        {/* Dynamic Animated Accordion */}
+        <div className="mb-16">
+          <Accordion key={selectedCategory} items={filteredFaqs} />
+        </div>
+
+        {/* Apothecary Concierge Card */}
+        <RevealOnScroll delay={0.2} className="max-w-3xl mx-auto">
+          <div className="p-8 sm:p-10 rounded-3xl bg-secondary/20 border border-highlight/20 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-highlight/10 blur-3xl rounded-full pointer-events-none" />
+            
+            <div className="flex items-start gap-4 sm:gap-5">
+              <div className="w-12 h-12 rounded-2xl bg-highlight/15 border border-highlight/30 flex items-center justify-center text-highlight shrink-0 shadow-lg">
+                <MessageSquare className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-display text-xl sm:text-2xl text-foreground mb-1.5">
+                  Have a specific botanical inquiry?
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
+                  Our master herbalists are available to guide your custom evening formulation.
+                </p>
+              </div>
+            </div>
+
+            <Button variant="outline" size="sm" className="whitespace-nowrap shrink-0 border-highlight/30 hover:bg-highlight hover:text-primary hover:border-highlight group/btn">
+              Consult Herbalist
+              <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
+            </Button>
+          </div>
         </RevealOnScroll>
       </Container>
     </section>
