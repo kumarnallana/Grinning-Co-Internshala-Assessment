@@ -15,7 +15,11 @@ export function CustomCursor() {
     // Only run on desktop (avoid on touch devices)
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
+<<<<<<< HEAD
     let rafId: number | undefined;
+=======
+    let rafId: number;
+>>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
     let targetX = -100;
     let targetY = -100;
 
@@ -35,7 +39,11 @@ export function CustomCursor() {
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
+<<<<<<< HEAD
       if (rafId !== undefined) cancelAnimationFrame(rafId);
+=======
+      if (rafId) cancelAnimationFrame(rafId);
+>>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
     };
   }, [cursorX, cursorY]);
 

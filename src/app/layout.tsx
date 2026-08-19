@@ -3,7 +3,10 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { AmbientBackground } from "@/components/background/AmbientBackground";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+<<<<<<< HEAD
 import { DemoSessionProvider } from "@/context/DemoSessionContext";
+=======
+>>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
 
 import "./globals.css";
 
@@ -53,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <body className="antialiased min-h-screen flex flex-col relative z-0">
+<<<<<<< HEAD
         <DemoSessionProvider>
           <MotionProvider>
             <CustomCursor />
@@ -60,6 +64,13 @@ export default function RootLayout({
             {children}
           </MotionProvider>
         </DemoSessionProvider>
+=======
+        <MotionProvider>
+          <CustomCursor />
+          <AmbientBackground />
+          {children}
+        </MotionProvider>
+>>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
       </body>
     </html>
   );

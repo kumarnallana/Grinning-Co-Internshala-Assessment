@@ -52,9 +52,12 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="relative w-full h-full md:h-auto md:w-full md:max-w-md bg-[#0F1219] md:rounded-[28px] md:border md:border-[#2A2E37] md:shadow-[0_40px_120px_-40px_rgba(0,0,0,0.6)] flex flex-col"
+<<<<<<< HEAD
             role="dialog"
             aria-modal="true"
             aria-label="Login Modal"
+=======
+>>>>>>> d0b0865ac0726f2a02097503c63a0fcc2dece171
           >
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-6 border-b border-white/10">
