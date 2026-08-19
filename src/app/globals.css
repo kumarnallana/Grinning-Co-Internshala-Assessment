@@ -35,6 +35,12 @@ section[id] {
   cursor: crosshair;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  body, a, button, [role="button"], input, select, textarea {
+    cursor: none;
+  }
+}
+
 /* Dynamic Ambient Orbs */
 .ambient-orb {
   position: absolute;

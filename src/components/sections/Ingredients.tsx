@@ -40,77 +40,71 @@ function FormulaSection() {
   return (
     <section ref={containerRef} id="formula" className="py-24 sm:py-32 relative h-[240vh]">
       <Container className="w-full h-full relative">
-        <div className="sticky top-32 grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+        <div className="sticky top-32 flex flex-col gap-8">
           
-          {/* Left: Sticky Macro Image Canvas (Single Source of Truth) */}
-          <div className="lg:col-span-5 relative h-[380px] sm:h-[450px] lg:h-[580px] rounded-2xl overflow-hidden border border-highlight/25 shadow-[0_25px_60px_rgba(0,0,0,0.85)] bg-secondary/30">
-            <motion.div 
-              className="absolute inset-0 origin-center"
-              style={{ scale: prefersReducedMotion ? 1 : parallaxScale }}
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIngredient.name}
-                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 1.04 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0 }}
-                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src={activeIngredient.image}
-                    alt={`High-magnification botanical macro photography of ${activeIngredient.name}`}
-                    fill
-                    priority
-                    className="object-cover object-center mix-blend-luminosity opacity-85"
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                  />
-                  {/* Atmospheric vignette & light overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/70 via-transparent to-primary/50" />
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
-
-            {/* Specular glass edge & corner badge */}
-            <div className="absolute inset-0 rounded-2xl border border-white/10 pointer-events-none" />
-            <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between text-xs text-muted-foreground z-20">
-              <span className="flex items-center gap-1.5 text-highlight font-medium">
-                <Compass className="w-3.5 h-3.5" />
-                <span>{activeIngredient.origin}</span>
-              </span>
-              <span className="font-mono text-[10px] tracking-wider text-muted-foreground/80">100% BIO-ACTIVE</span>
+          {/* Static Header Grid (Outside AnimatePresence) */}
+          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start w-full pointer-events-none">
+            <div className="hidden lg:block lg:col-span-5" />
+            <div className="lg:col-span-7 pointer-events-auto">
+              <RevealOnScroll className="mb-2 lg:mb-4">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-highlight/10 border border-highlight/20 text-xs font-semibold uppercase tracking-[0.2em] text-highlight mb-4">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Pharmacological Architecture</span>
+                </div>
+                <h2 className="font-display text-4xl sm:text-5xl text-foreground tracking-tight mb-4">
+                  The Formula.
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed max-w-xl font-light">
+                  Nothing synthetic. Nothing accidental. Every adaptogen and amino acid is calibrated to systematically quiet the central nervous system.
+                </p>
+              </RevealOnScroll>
             </div>
           </div>
 
-          {/* Right: Crossfading Narrative with Zero-Ghosting Architecture */}
-          <div className="lg:col-span-7 relative flex flex-col justify-center min-h-[380px] lg:min-h-[580px]">
-            <RevealOnScroll className="mb-10">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-highlight/10 border border-highlight/20 text-xs font-semibold uppercase tracking-[0.2em] text-highlight mb-4">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Pharmacological Architecture</span>
-              </div>
-              <h2 className="font-display text-4xl sm:text-5xl text-foreground tracking-tight mb-4">
-                The Formula.
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-xl font-light">
-                Nothing synthetic. Nothing accidental. Every adaptogen and amino acid is calibrated to systematically quiet the central nervous system.
-              </p>
-            </RevealOnScroll>
+          {/* Synchronized Animated Botanical Content (Stacked, No Gap) */}
+          <div className="grid">
+            <AnimatePresence>
+              <motion.div
+                key={activeIngredient.number}
+                initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+                animate={{ opacity: 1, pointerEvents: 'auto' }}
+                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, pointerEvents: 'none' }}
+                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="col-start-1 row-start-1 grid lg:grid-cols-12 gap-16 lg:gap-24 items-start w-full"
+                aria-live="polite"
+              >
+                {/* Left: Macro Image Canvas */}
+                <div className="lg:col-span-5 relative h-[380px] sm:h-[450px] lg:h-[480px] rounded-2xl overflow-hidden border border-highlight/25 shadow-[0_25px_60px_rgba(0,0,0,0.85)] bg-secondary/30">
+                  <motion.div 
+                    className="absolute inset-0 origin-center"
+                    style={{ scale: prefersReducedMotion ? 1 : parallaxScale }}
+                  >
+                    <Image
+                      src={activeIngredient.image}
+                      alt={`High-magnification botanical macro photography of ${activeIngredient.name}`}
+                      fill
+                      priority
+                      className="object-cover object-center mix-blend-luminosity opacity-85"
+                      sizes="(max-width: 1024px) 100vw, 45vw"
+                    />
+                    {/* Atmospheric vignette & light overlays */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/70 via-transparent to-primary/50" />
+                  </motion.div>
 
-            {/* Active Botanical Presenter: AnimatePresence mode="wait" guarantees ZERO simultaneous text double-exposure */}
-            <div className="relative min-h-[260px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIngredient.number}
-                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
-                  transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full"
-                  aria-live="polite"
-                >
-                  {/* Editorial Hierarchy: NUMBER -> CATEGORY -> BOTANICAL ROLE */}
+                  {/* Specular glass edge & corner badge */}
+                  <div className="absolute inset-0 rounded-2xl border border-white/10 pointer-events-none" />
+                  <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between text-xs text-muted-foreground z-20">
+                    <span className="flex items-center gap-1.5 text-highlight font-medium">
+                      <Compass className="w-3.5 h-3.5" />
+                      <span>{activeIngredient.origin}</span>
+                    </span>
+                    <span className="font-mono text-[10px] tracking-wider text-muted-foreground/80">100% BIO-ACTIVE</span>
+                  </div>
+                </div>
+
+                {/* Right: Narrative Detail */}
+                <div className="lg:col-span-7 relative flex flex-col justify-center min-h-[380px] lg:min-h-[480px]">
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-sm uppercase tracking-[0.25em] text-highlight font-bold font-mono">
                       {activeIngredient.number}
@@ -133,16 +127,16 @@ function FormulaSection() {
                     {activeIngredient.description}
                   </p>
 
-                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5 max-w-xl">
+                  <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5 max-w-xl mt-4">
                     <Dna className="w-4 h-4 text-highlight shrink-0 mt-0.5" />
                     <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                       <span className="text-foreground font-medium">Clinical Impact: </span>
                       {activeIngredient.scienceNote}
                     </p>
                   </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </Container>

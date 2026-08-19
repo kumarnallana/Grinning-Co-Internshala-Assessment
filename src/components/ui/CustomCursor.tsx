@@ -11,9 +11,13 @@ export function CustomCursor() {
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
 
-  // Smooth spring physics for the outer trailing halo
-  const springX = useSpring(mouseX, { stiffness: 450, damping: 30, mass: 0.5 });
-  const springY = useSpring(mouseY, { stiffness: 450, damping: 30, mass: 0.5 });
+  // Smooth spring physics for the outer trailing halo (soft, trailing)
+  const springOuterX = useSpring(mouseX, { stiffness: 150, damping: 20, mass: 0.8 });
+  const springOuterY = useSpring(mouseY, { stiffness: 150, damping: 20, mass: 0.8 });
+
+  // Distinct stiff spring for the inner precision dot (removes raw coordinate lag)
+  const springInnerX = useSpring(mouseX, { stiffness: 800, damping: 35, mass: 0.1 });
+  const springInnerY = useSpring(mouseY, { stiffness: 800, damping: 35, mass: 0.1 });
 
   React.useEffect(() => {
     // Progressive enhancement: strictly disable on touch/mobile or reduced-motion
@@ -73,8 +77,8 @@ export function CustomCursor() {
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 rounded-full bg-highlight pointer-events-none -translate-x-1/2 -translate-y-1/2"
         style={{
-          x: mouseX,
-          y: mouseY,
+          x: springInnerX,
+          y: springInnerY,
           opacity: isVisible ? 1 : 0,
         }}
       />
@@ -83,8 +87,8 @@ export function CustomCursor() {
       <motion.div
         className="fixed top-0 left-0 rounded-full border pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-colors duration-300"
         style={{
-          x: springX,
-          y: springY,
+          x: springOuterX,
+          y: springOuterY,
           opacity: isVisible ? 1 : 0,
         }}
         animate={{
