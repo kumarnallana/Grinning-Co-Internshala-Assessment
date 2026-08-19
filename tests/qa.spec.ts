@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Redroot V4 QA Assertions', () => {
   
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('http://localhost:3000/');
     await page.waitForTimeout(1000);
   });
 
@@ -71,7 +71,7 @@ test.describe('Mobile Device Emulation', () => {
   });
 
   test('R4.2 Mobile: Native Cursor Retained', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('http://localhost:3000/');
     
     // On touch devices, the cursor should NOT be 'none'
     const bodyCursor = await page.evaluate(() => window.getComputedStyle(document.body).cursor);
