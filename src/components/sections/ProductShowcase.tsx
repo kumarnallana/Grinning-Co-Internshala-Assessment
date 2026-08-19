@@ -97,7 +97,7 @@ function ProductRow({ product, index }: { product: typeof PRODUCTS[0], index: nu
 
 export function ProductShowcase() {
   return (
-    <section id="blends" className="relative bg-primary pt-24 sm:pt-32">
+    <section id="blends" className="relative pt-24 sm:pt-32">
       <Container>
         <div className="mb-16 md:mb-24 max-w-2xl">
           <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">

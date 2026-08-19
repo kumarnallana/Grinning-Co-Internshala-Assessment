@@ -3,81 +3,20 @@
 import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { HOW_IT_WORKS } from "@/lib/constants";
-import { motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
-
-function StepItem({ 
-  item, 
-  index, 
-  scrollYProgress 
-}: { 
-  item: typeof HOW_IT_WORKS[0], 
-  index: number, 
-  scrollYProgress: MotionValue<number> 
-}) {
-  const start = index * 0.25;
-  const peak = start + 0.125;
-  const end = start + 0.25;
-  
-  const opacityRanges = index === 3 
-    ? [start - 0.05, start, 1] 
-    : [start - 0.05, start, peak, end];
-  
-  const opacityValues = index === 3 
-    ? [0, 1, 1]
-    : [0, 1, 1, 0];
-
-  const opacity = useTransform(scrollYProgress, opacityRanges, opacityValues);
-  const y = useTransform(scrollYProgress, 
-    [start - 0.1, start, peak, end], 
-    [50, 0, 0, -50]
-  );
-
-  return (
-    <motion.div 
-      className="absolute inset-0 flex flex-col justify-center"
-      style={{ opacity, y, pointerEvents: index === 3 ? "auto" : "none" }}
-    >
-      <div className="group flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
-        <span className="font-display text-6xl sm:text-7xl text-highlight/20 font-light tabular-nums tracking-tighter">
-          {item.step}
-        </span>
-        <div>
-          <h3 className="font-display text-3xl sm:text-4xl text-foreground mb-4">
-            {item.title}
-          </h3>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            {item.description}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { motion } from "framer-motion";
 
 export function HowItWorks() {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-
   return (
-    <section ref={containerRef} id="ritual" className="relative bg-primary" style={{ height: prefersReducedMotion ? 'auto' : '400vh' }}>
-      <div className={prefersReducedMotion ? "py-24 sm:py-32" : "sticky top-0 h-screen flex items-center overflow-hidden"}>
-        {!prefersReducedMotion && (
-          <motion.div 
-            className="absolute inset-0 z-0 bg-secondary/10"
-            style={{ opacity: bgOpacity }}
-          />
-        )}
+    <section id="ritual" className="py-24 sm:py-32 relative">
+      <div className="absolute inset-0 z-0 bg-secondary/5" />
 
-        <Container className="relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <div className="max-w-md">
+      <Container className="relative z-10 w-full">
+        <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          
+          {/* Left: Sticky Header Context */}
+          <div className="lg:col-span-5 lg:sticky lg:top-32 max-w-md">
+            <RevealOnScroll>
               <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
                 The Ritual
               </h2>
@@ -87,41 +26,49 @@ export function HowItWorks() {
               <p className="text-lg text-muted-foreground leading-relaxed">
                 True rest requires intent. We designed this four-step process to actively signal to your nervous system that the day&apos;s acceleration is officially over.
               </p>
-            </div>
-
-            {prefersReducedMotion ? (
-              <div className="space-y-16">
-                {HOW_IT_WORKS.map((item) => (
-                  <div key={item.step} className="group flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
-                    <span className="font-display text-6xl sm:text-7xl text-highlight/20 font-light tabular-nums tracking-tighter">
-                      {item.step}
-                    </span>
-                    <div>
-                      <h3 className="font-display text-3xl sm:text-4xl text-foreground mb-4">
-                        {item.title}
-                      </h3>
-                      <p className="text-xl text-muted-foreground leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="relative h-[300px] flex items-center">
-                {HOW_IT_WORKS.map((item, index) => (
-                  <StepItem 
-                    key={item.step} 
-                    item={item} 
-                    index={index} 
-                    scrollYProgress={scrollYProgress} 
-                  />
-                ))}
-              </div>
-            )}
+            </RevealOnScroll>
           </div>
-        </Container>
-      </div>
+
+          {/* Right: Progressive Reveal Vertical List */}
+          <div className="lg:col-span-7 relative">
+            {/* Background track line */}
+            <div className="absolute left-[35px] sm:left-[43px] top-8 bottom-8 w-px bg-muted-foreground/20 hidden sm:block" />
+
+            <div className="space-y-24 sm:space-y-32">
+              {HOW_IT_WORKS.map((item) => (
+                <motion.div
+                  key={item.step}
+                  className="relative group flex flex-col sm:flex-row gap-6 sm:gap-12 items-start"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: false, margin: "-20% 0px -20% 0px" }}
+                  variants={{
+                    hidden: { opacity: 0.3, scale: 0.95, filter: "grayscale(100%)" },
+                    visible: { opacity: 1, scale: 1, filter: "grayscale(0%)" }
+                  }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {/* Active highlight line indicator overlay (animates height when active) */}
+                  <div className="absolute left-[35px] sm:left-[43px] top-0 bottom-0 w-px bg-highlight origin-top hidden sm:block scale-y-0 group-[[data-inview='true']]:scale-y-100 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+
+                  <div className="relative z-10 font-display text-6xl sm:text-7xl text-highlight/40 font-light tabular-nums tracking-tighter transition-colors duration-700 group-hover:text-highlight/80">
+                    {item.step}
+                  </div>
+                  <div className="pt-2 sm:pt-4">
+                    <h3 className="font-display text-3xl sm:text-4xl text-foreground mb-4">
+                      {item.title}
+                    </h3>
+                    <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </Container>
     </section>
   );
 }

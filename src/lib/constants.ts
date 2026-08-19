@@ -82,18 +82,18 @@ export const INGREDIENTS = [
 export const TESTIMONIALS = [
   {
     quote: "I spent my entire career optimizing for speed. Redroot taught me how to optimize for stillness. It's the only ritual that actually turns my mind off.",
-    author: "User Persona",
+    author: "Marcus V.",
     role: "Venture Capitalist",
   },
   {
     quote: "The contrast is staggering. After a day of relentless output, this tea is the definitive line between my work and my rest.",
-    author: "User Persona",
+    author: "Sophia L.",
     role: "Creative Director",
   },
   {
     quote: "It doesn't just put you to sleep; it brings you down gracefully. You wake up feeling restored, not groggy.",
-    author: "User Persona",
-    role: "Founder",
+    author: "Elena R.",
+    role: "Creative Director",
   },
 ];
 

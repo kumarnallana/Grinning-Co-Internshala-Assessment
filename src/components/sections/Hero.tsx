@@ -15,8 +15,8 @@ export function Hero() {
   const bgScale = useTransform(scrollY, [0, 1000], [1, 1.15]);
   const bgOpacity = useTransform(scrollY, [0, 800], [0.3, 0.05]);
   const textOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-  const textY = useTransform(scrollY, [0, 400], [0, 50]);
-  const productY = useTransform(scrollY, [0, 400], [0, 100]);
+  const textY = useTransform(scrollY, [0, 400], [0, 30]);
+  const productY = useTransform(scrollY, [0, 400], [0, 60]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden" aria-labelledby="hero-heading">
@@ -25,7 +25,7 @@ export function Hero() {
         className="absolute inset-0 z-0 origin-top"
         style={{ scale: prefersReducedMotion ? 1 : bgScale }}
       >
-        <motion.div className="relative w-full h-full bg-primary" style={{ opacity: prefersReducedMotion ? 0.3 : bgOpacity }}>
+        <motion.div className="relative w-full h-full" style={{ opacity: prefersReducedMotion ? 0.3 : bgOpacity }}>
           <Image
             src="/images/hero_bg_1787072201282.jpg"
             alt="Moody, dark editorial tea steeping representing deep rest"
@@ -43,6 +43,9 @@ export function Hero() {
       <Container className="relative z-10 grid lg:grid-cols-2 gap-12 items-center w-full">
         <motion.div 
           className="max-w-2xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
           style={{ 
             opacity: prefersReducedMotion ? 1 : textOpacity, 
             y: prefersReducedMotion ? 0 : textY 
@@ -74,6 +77,9 @@ export function Hero() {
         {/* Floating Product Jar for Visual Prominence */}
         <motion.div 
           className="hidden lg:flex justify-end items-center relative"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
           style={{ 
             opacity: prefersReducedMotion ? 1 : textOpacity, 
             y: prefersReducedMotion ? 0 : productY 

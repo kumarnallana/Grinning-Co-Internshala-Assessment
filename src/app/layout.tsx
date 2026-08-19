@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { AmbientBackground } from "@/components/background/AmbientBackground";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+
 import "./globals.css";
 
 const inter = Inter({

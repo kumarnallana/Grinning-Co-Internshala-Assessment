@@ -30,14 +30,14 @@ export function Story() {
   const text2Y = useTransform(scrollYProgress, [0.5, 0.6], [30, 0]);
 
   return (
-    <section ref={containerRef} id="story" className="relative min-h-[150vh] flex items-center justify-center py-32">
+    <section ref={containerRef} id="story" className="relative flex items-center justify-center py-24 sm:py-32">
       {/* Full-bleed background with mask reveal */}
       <motion.div 
         className="absolute inset-0 z-0 overflow-hidden"
         style={{ clipPath: prefersReducedMotion ? "none" : clipPath }}
       >
         <motion.div 
-          className="absolute inset-[-10%] bg-primary"
+          className="absolute inset-[-10%]"
           style={{ scale: prefersReducedMotion ? 1 : imageScale }}
         >
           <Image

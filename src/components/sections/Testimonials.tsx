@@ -3,114 +3,112 @@
 import * as React from "react";
 import { Container } from "@/components/ui/Container";
 import { TESTIMONIALS } from "@/lib/constants";
-import { motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
-
-function TestimonialItem({ 
-  review, 
-  index, 
-  total,
-  scrollYProgress 
-}: { 
-  review: typeof TESTIMONIALS[0], 
-  index: number,
-  total: number,
-  scrollYProgress: MotionValue<number> 
-}) {
-  const step = 1 / total;
-  const start = index * step;
-  const peak = start + (step / 2);
-  const end = start + step;
-  
-  const opacityRanges = index === total - 1 
-    ? [start - 0.1, start, 1] 
-    : [start - 0.1, start, peak, end];
-  
-  const opacityValues = index === total - 1 
-    ? [0, 1, 1]
-    : [0, 1, 1, 0];
-
-  const opacity = useTransform(scrollYProgress, opacityRanges, opacityValues);
-  const y = useTransform(scrollYProgress, [start - 0.1, start, peak, end], [30, 0, 0, -30]);
-
-  return (
-    <motion.figure 
-      className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-8"
-      style={{ opacity, y, pointerEvents: index === total - 1 ? "auto" : "none" }}
-    >
-      <div className="text-highlight font-display text-8xl mb-4 opacity-20">
-        &ldquo;
-      </div>
-      <blockquote className="max-w-4xl font-display text-3xl sm:text-4xl md:text-5xl leading-tight text-foreground mb-12">
-        {review.quote}
-      </blockquote>
-      <figcaption className="flex flex-col items-center">
-        <div className="font-medium text-foreground uppercase tracking-[0.2em] text-sm mb-1">
-          {review.author}
-        </div>
-        <div className="text-muted-foreground text-sm">
-          {review.role}
-        </div>
-      </figcaption>
-    </motion.figure>
-  );
-}
+import { RevealOnScroll } from "@/components/ui/RevealOnScroll";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { Star } from "lucide-react";
 
 export function Testimonials() {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start end", "end start"]
   });
 
-  return (
-    <section ref={containerRef} id="reviews" className="relative bg-transparent border-t border-muted/30" style={{ height: prefersReducedMotion ? 'auto' : '300vh' }}>
-      <div className={prefersReducedMotion ? "py-24 sm:py-32" : "sticky top-0 h-screen flex flex-col overflow-hidden"}>
-        <div className="w-full text-center pt-24 sm:pt-32 relative z-20">
-          <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
-            The Evidence
-          </h2>
-          <p className="font-display text-xl text-muted-foreground">
-            Those who have stopped.
-          </p>
-        </div>
+  // Slight parallax effect for background
+  const y = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
-        <Container className="relative z-10 w-full flex-1">
-          {prefersReducedMotion ? (
-            <div className="space-y-24 mt-16">
-               {TESTIMONIALS.map((review, index) => (
-                  <figure key={index} className="flex flex-col items-center text-center">
-                    <div className="text-highlight font-display text-8xl mb-4 opacity-20">&ldquo;</div>
-                    <blockquote className="max-w-4xl font-display text-3xl sm:text-4xl md:text-5xl leading-tight text-foreground mb-12">
-                      {review.quote}
-                    </blockquote>
-                    <figcaption className="flex flex-col items-center">
-                      <div className="font-medium text-foreground uppercase tracking-[0.2em] text-sm mb-1">
-                        {review.author}
-                      </div>
-                      <div className="text-muted-foreground text-sm">
-                        {review.role}
-                      </div>
-                    </figcaption>
-                  </figure>
-               ))}
-            </div>
-          ) : (
-            <div className="relative w-full h-full">
-              {TESTIMONIALS.map((review, index) => (
-                <TestimonialItem 
-                  key={index} 
-                  review={review} 
-                  index={index} 
-                  total={TESTIMONIALS.length}
-                  scrollYProgress={scrollYProgress} 
-                />
+  return (
+    <section ref={containerRef} id="reviews" className="pt-24 sm:pt-32 pb-12 relative overflow-hidden text-foreground border-t border-muted/30">
+      
+      {/* Subtle parallax background texture */}
+      {!prefersReducedMotion && (
+        <motion.div 
+          style={{ y }}
+          className="absolute inset-0 opacity-5 pointer-events-none"
+          aria-hidden="true"
+        >
+          <div className="w-full h-[200%] bg-[url('/images/story_bg_1787075461396.jpg')] bg-repeat bg-[length:400px_400px]" />
+        </motion.div>
+      )}
+
+      <Container className="relative z-10 w-full mb-16 sm:mb-24">
+        <RevealOnScroll className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div>
+            <h2 className="text-highlight font-semibold tracking-[0.2em] text-sm uppercase mb-4">
+              The Evidence
+            </h2>
+            <p className="font-display text-4xl sm:text-5xl">
+              Those who have stopped.
+            </p>
+          </div>
+          
+          {/* Trust Signals */}
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 fill-highlight text-highlight" />
               ))}
             </div>
-          )}
-        </Container>
+            <p className="text-sm font-medium tracking-wide uppercase text-muted-foreground">
+              4.9/5 Average Rating (500+ Reviews)
+            </p>
+          </div>
+        </RevealOnScroll>
+      </Container>
+
+      {/* Horizontal Draggable/Scrollable Carousel */}
+      <div 
+        className="w-full overflow-hidden cursor-grab active:cursor-grabbing pb-12"
+        ref={scrollContainerRef}
+      >
+        <motion.div
+          drag="x"
+          dragConstraints={scrollContainerRef}
+          className="flex gap-6 sm:gap-8 px-4 sm:px-8 md:px-16 w-max"
+        >
+          {TESTIMONIALS.map((review, index) => (
+            <motion.div 
+              key={index}
+              className="flex-shrink-0 w-[300px] sm:w-[400px] md:w-[500px] bg-secondary/30 p-8 sm:p-12 rounded-sm border border-white/5 flex flex-col justify-between"
+              whileHover={{ y: -5, backgroundColor: "rgba(255,255,255,0.05)" }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="mb-8">
+                <div className="flex gap-1 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-highlight text-highlight" />
+                  ))}
+                </div>
+                <blockquote className="font-display text-xl sm:text-2xl leading-relaxed text-foreground/90">
+                  &ldquo;{review.quote}&rdquo;
+                </blockquote>
+              </div>
+              
+              <figcaption className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-sm border border-highlight/20 bg-primary flex items-center justify-center relative overflow-hidden shrink-0 shadow-[inset_0_1px_4px_rgba(255,255,255,0.05)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-highlight/20 via-transparent to-transparent" />
+                  <div className="absolute inset-0 opacity-20 bg-[url('/images/story_bg_1787075461396.jpg')] bg-cover mix-blend-overlay" />
+                  <span className="font-display text-highlight text-lg italic tracking-widest relative z-10 opacity-90">
+                    {review.author.split(' ').map((n: string) => n[0]).join('')}
+                  </span>
+                </div>
+                <div>
+                  <div className="font-medium text-foreground tracking-wide text-sm">
+                    {review.author}
+                  </div>
+                  <div className="text-muted-foreground text-xs uppercase tracking-widest mt-1">
+                    {review.role}
+                  </div>
+                </div>
+              </figcaption>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
+
     </section>
   );
 }

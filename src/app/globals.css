@@ -5,6 +5,7 @@
 :root {
   --background: #050505; /* True midnight dark */
   --foreground: #F4EFE6;
+  --header-height: 5rem; /* 80px */
 }
 
 body {
@@ -19,6 +20,19 @@ body {
 /* Glassmorphism Utilities */
 .glass-panel {
   @apply bg-white/[0.02] backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+}
+
+/* Base Structural Spacing */
+section[id] {
+  scroll-margin-top: var(--header-height);
+}
+
+/* Custom Interactive Cursor (optional utility for interactive zones) */
+.cursor-interactive {
+  cursor: pointer;
+}
+.cursor-interactive:hover {
+  cursor: crosshair;
 }
 
 /* Dynamic Ambient Orbs */

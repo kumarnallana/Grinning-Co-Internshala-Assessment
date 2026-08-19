@@ -61,8 +61,12 @@ export function FinalCTA() {
               className="object-cover object-center"
               sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505]" />
+            {/* Base gradients for blending into background */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
+            
+            {/* Heavy Text-safe Scrim for WCAG AA contrast over the image */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
           </div>
         </motion.div>
 

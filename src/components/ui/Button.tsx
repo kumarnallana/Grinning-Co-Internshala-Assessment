@@ -14,15 +14,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "group relative overflow-hidden inline-flex items-center justify-center rounded-sm font-medium transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background",
+          "relative group inline-flex items-center justify-center overflow-hidden rounded-sm text-sm font-medium tracking-wide transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight disabled:pointer-events-none disabled:opacity-50",
           {
-            "bg-highlight text-primary border border-transparent": variant === "primary",
-            "bg-secondary text-foreground border border-transparent": variant === "secondary",
-            "border border-muted bg-transparent text-foreground": variant === "outline",
-            "bg-transparent text-foreground": variant === "ghost",
-            "h-9 px-4 text-sm": size === "sm",
-            "h-11 px-8 text-base": size === "md",
-            "h-14 px-10 text-lg": size === "lg",
+            "h-10 px-4 py-2": size === "md",
+            "h-9 rounded-sm px-3": size === "sm",
+            "h-14 rounded-sm px-8 text-base": size === "lg",
+            "bg-highlight text-primary hover:bg-[#D4B06A] hover:shadow-highlight/20": variant === "primary",
+            "bg-secondary text-foreground hover:bg-[#1E2136] hover:shadow-secondary/20": variant === "secondary",
+            "border border-muted-foreground/30 bg-transparent text-foreground hover:bg-muted-foreground/10 hover:shadow-foreground/5": variant === "outline",
+            "hover:bg-accent hover:text-accent-foreground shadow-none hover:shadow-none hover:-translate-y-0": variant === "ghost",
           },
           className
         )}
@@ -30,17 +30,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {/* Hover Background Expansion */}
         <span className={cn(
-          "absolute inset-0 w-full h-full scale-x-0 origin-left transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100",
+          "absolute inset-0 w-full h-full scale-x-0 origin-left transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100",
           {
             "bg-[#D4B06A]": variant === "primary",
             "bg-[#1E2136]": variant === "secondary",
-            "bg-secondary": variant === "outline",
-            "bg-secondary/50": variant === "ghost",
+            "bg-muted-foreground/10": variant === "outline",
+            "hidden": variant === "ghost",
           }
         )} />
         
         {/* Content Wrapper for shift */}
-        <span className="relative z-10 flex items-center justify-center gap-2 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
+        <span className="relative z-10 flex items-center justify-center gap-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
           {children}
         </span>
       </button>
