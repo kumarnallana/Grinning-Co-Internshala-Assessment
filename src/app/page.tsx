@@ -9,6 +9,7 @@ import { Pricing } from "@/components/sections/Pricing";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { LeadGen } from "@/components/sections/LeadGen";
+import { DeveloperContact } from "@/components/sections/DeveloperContact";
 import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <FAQ />
         <FinalCTA />
         <LeadGen />
+        <DeveloperContact />
       </main>
       <Footer />
     </>
