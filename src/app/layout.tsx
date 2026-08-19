@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import { AmbientBackground } from "@/components/background/AmbientBackground";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+import { CustomCursor } from "@/components/ui/CustomCursor";
 
 import "./globals.css";
 
@@ -52,6 +53,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable} scroll-smooth`}>
       <body className="antialiased min-h-screen flex flex-col relative z-0">
         <MotionProvider>
+          <CustomCursor />
           <AmbientBackground />
           {children}
         </MotionProvider>

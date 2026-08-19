@@ -7,10 +7,13 @@ import { motion, AnimatePresence } from "motion/react";
 import { NAVIGATION } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
+import { Logo } from "@/components/ui/Logo";
+import { LoginModal } from "@/components/ui/LoginModal";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const [isLoginOpen, setIsLoginOpen] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -50,10 +53,11 @@ export function Navbar() {
         <nav className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link 
             href="/" 
-            className="font-display text-2xl font-semibold tracking-wide text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
+            className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
             aria-label="Redroot Home"
           >
-            Redroot
+            <Logo />
+            <span className="font-display text-2xl font-semibold tracking-wide text-foreground">Redroot</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -71,7 +75,14 @@ export function Navbar() {
           </ul>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" size="sm" className="hidden lg:inline-flex">Log In</Button>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="hidden lg:inline-flex"
+              onClick={() => setIsLoginOpen(true)}
+            >
+              Log In
+            </Button>
             <Button size="sm">Begin Ritual</Button>
           </div>
 
@@ -103,10 +114,11 @@ export function Navbar() {
             <div className="flex items-center justify-between px-4 sm:px-6 h-20 border-b border-muted">
               <Link 
                 href="/" 
-                className="font-display text-2xl font-semibold tracking-wide text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
+                className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Redroot
+                <Logo />
+                <span className="font-display text-2xl font-semibold tracking-wide text-foreground">Redroot</span>
               </Link>
               <button
                 className="p-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-sm"
@@ -132,12 +144,24 @@ export function Navbar() {
               </ul>
               <div className="flex flex-col gap-4 mt-8">
                 <Button size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>Begin Ritual</Button>
-                <Button variant="outline" size="lg" className="w-full" onClick={() => setIsMobileMenuOpen(false)}>Log In</Button>
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full" 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsLoginOpen(true);
+                  }}
+                >
+                  Log In
+                </Button>
               </div>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
     </>
   );
 }

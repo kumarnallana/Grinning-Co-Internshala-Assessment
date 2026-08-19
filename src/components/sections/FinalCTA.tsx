@@ -1,105 +1,140 @@
 "use client";
 
-import * as React from "react";
-import Image from "next/image";
-import { Container } from "@/components/ui/Container";
-import { Button } from "@/components/ui/Button";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { useState } from "react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
+import { Clock, Mail, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const CHALLENGES = [
+  "Racing Mind & Overthinking",
+  "Physical Tension & Stress",
+  "Circadian Rhythm Desync",
+  "Deep REM & Recovery",
+] as const;
 
 export function FinalCTA() {
-  const containerRef = React.useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end end"]
-  });
+  const [challenge, setChallenge] = useState<string>(CHALLENGES[1]);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
 
-  const backgroundColor = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    ["rgba(18, 17, 19, 0)", "rgba(22, 13, 20, 1)", "rgba(5, 5, 5, 1)"]
-  );
-
-  const jarOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
-  const jarY = useTransform(scrollYProgress, [0.2, 0.5], [100, 0]);
-  const jarScale = useTransform(scrollYProgress, [0.2, 1], [0.95, 1.05]);
-
-  const textOpacity = useTransform(scrollYProgress, [0.6, 0.7], [0, 1]);
-  const textScale = useTransform(scrollYProgress, [0.6, 0.7], [0.95, 1]);
-
-  const ctaOpacity = useTransform(scrollYProgress, [0.75, 0.85], [0, 1]);
-  const ctaY = useTransform(scrollYProgress, [0.75, 0.85], [20, 0]);
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    // Front-end demo only — no backend, nothing is persisted.
+    setTimeout(() => {
+      setStatus("done");
+    }, 900);
+  }
 
   return (
-    <section ref={containerRef} className="relative h-[200vh]">
-      <motion.div 
-        className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden"
-        style={{ backgroundColor: prefersReducedMotion ? "#050505" : backgroundColor }}
-      >
-        {/* Background Jar Image */}
-        <motion.div 
-          className="absolute inset-0 z-0 flex items-center justify-center opacity-40 mix-blend-luminosity pointer-events-none"
-          style={{ 
-            opacity: prefersReducedMotion ? 0.4 : jarOpacity,
-            y: prefersReducedMotion ? 0 : jarY,
-            scale: prefersReducedMotion ? 1 : jarScale
+    <section id="join" className="relative overflow-hidden py-28" aria-labelledby="final-cta-heading">
+      {!prefersReducedMotion && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[900px] -translate-x-1/2 rounded-full blur-3xl"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(212,168,106,0.16), rgba(181,73,63,0.08), transparent)",
           }}
-        >
-          <div className="relative w-full max-w-2xl aspect-square">
-            <Image
-              src="/images/product_3_1787073202462.jpg"
-              alt="Last Light Product"
-              fill
-              className="object-cover object-center rounded-full blur-2xl opacity-30"
-              sizes="100vw"
-            />
-            <Image
-              src="/images/product_3_1787073202462.jpg"
-              alt="Last Light Product"
-              fill
-              className="object-cover object-center"
-              sizes="100vw"
-            />
-            {/* Base gradients for blending into background */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
-            
-            {/* Heavy Text-safe Scrim for WCAG AA contrast over the image */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-transparent pointer-events-none" />
-            
-            {/* Atmospheric Midnight Plum Halo */}
-            <div className="absolute inset-0 bg-[#6d3b7d]/15 blur-[120px] rounded-full scale-90 pointer-events-none" />
-          </div>
+          animate={{ opacity: [0.5, 0.85, 0.5], scale: [1, 1.06, 1] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
+      )}
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.4 }}
+        className="relative mx-auto max-w-2xl rounded-[28px] border border-[#2A2E37] bg-[#0F1219]/90 p-10 text-center shadow-[0_40px_120px_-40px_rgba(0,0,0,0.6)] backdrop-blur mx-4 sm:mx-auto"
+      >
+        <motion.span variants={item} className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-[#D4A86A]/30 bg-[#D4A86A]/10 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-[#D4A86A]">
+          <Clock size={13} aria-hidden />
+          The Evening Dispatch
+        </motion.span>
+
+        <motion.h2 id="final-cta-heading" variants={item} className="font-serif text-4xl text-[#F2E7D5] sm:text-5xl">
+          Join the Circadian Circle.
+        </motion.h2>
+
+        <motion.p variants={item} className="mx-auto mt-4 max-w-md text-[#B7BBC4]">
+          Weekly private essays on nervous system deceleration, circadian biology, and rare botanical harvest notes. Delivered every Sunday at dusk.
+        </motion.p>
+
+        <motion.p variants={item} className="mt-10 text-xs uppercase tracking-[0.2em] text-[#8A8F99]">
+          Select your primary evening challenge
+        </motion.p>
+
+        <motion.div variants={item} className="mt-4 flex flex-wrap justify-center gap-2">
+          {CHALLENGES.map((c) => {
+            const active = c === challenge;
+            return (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setChallenge(c)}
+                aria-pressed={active}
+                className={`rounded-full border px-4 py-2 text-sm transition-colors duration-200 ${
+                  active
+                    ? "border-[#D4A86A] bg-[#D4A86A] text-[#12151C]"
+                    : "border-[#2A2E37] bg-transparent text-[#B7BBC4] hover:border-[#D4A86A]/50"
+                }`}
+              >
+                {c}
+              </button>
+            );
+          })}
         </motion.div>
 
-        <Container className="relative z-10 text-center flex flex-col items-center justify-center h-full pt-32">
-          <motion.div
-            style={{ 
-              opacity: prefersReducedMotion ? 1 : textOpacity,
-              scale: prefersReducedMotion ? 1 : textScale
-            }}
-            className="flex flex-col items-center"
+        <motion.form variants={item} onSubmit={handleSubmit} className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row">
+          <label htmlFor="cta-email" className="sr-only">Email address</label>
+          <div className="flex flex-1 items-center gap-2 rounded-xl border border-[#2A2E37] bg-[#F2E7D5]/95 px-4 py-3">
+            <Mail size={16} className="text-[#6E7280]" aria-hidden />
+            <input
+              id="cta-email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full bg-transparent text-sm text-[#12151C] outline-none placeholder:text-[#8A8F99]"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={status !== "idle"}
+            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D4A86A] px-6 py-3 text-sm font-medium text-[#12151C] transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-70"
           >
-            <h2 className="font-display text-7xl sm:text-8xl md:text-9xl lg:text-[10rem] text-foreground tracking-tighter mb-8 leading-none drop-shadow-2xl">
-              Stop running.
-            </h2>
-            <p className="text-2xl sm:text-3xl text-muted-foreground/80 font-display italic max-w-2xl mx-auto mb-16 font-light">
-              The day is over. It&apos;s time to return to yourself.
-            </p>
-          </motion.div>
+            {status === "loading" && "Reserving…"}
+            {status === "done" && "Demo confirmed"}
+            {status === "idle" && (
+              <>
+                Reserve my seat
+                <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+              </>
+            )}
+          </button>
+        </motion.form>
 
-          <motion.div
-            style={{ 
-              opacity: prefersReducedMotion ? 1 : ctaOpacity,
-              y: prefersReducedMotion ? 0 : ctaY
-            }}
-          >
-            <Button size="lg" variant="outline" className="min-w-[240px] text-lg bg-transparent border-foreground/20 hover:bg-foreground hover:text-background transition-all duration-500 rounded-full py-8 tracking-[0.1em] uppercase group/btn">
-              Begin Your Ritual
-            </Button>
-          </motion.div>
-        </Container>
+        <motion.div variants={item} className="mt-5 flex justify-center gap-6 text-xs text-[#6E7280]">
+          <span className="inline-flex items-center gap-1.5"><ShieldCheck size={13} aria-hidden /> Zero promotions or spam</span>
+          <span className="inline-flex items-center gap-1.5"><Sparkles size={13} aria-hidden /> Seasonal formulation previews</span>
+        </motion.div>
       </motion.div>
     </section>
   );
