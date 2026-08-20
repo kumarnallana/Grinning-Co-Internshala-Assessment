@@ -21,6 +21,18 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
       return;
     }
 
+    if (password.length < 8) {
+      setStatus("error");
+      setErrorMsg("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
+      setStatus("error");
+      setErrorMsg("Password must contain a letter, a number, and a special character.");
+      return;
+    }
+
     setStatus("loading");
 
     // Demo session — no backend, no persistence

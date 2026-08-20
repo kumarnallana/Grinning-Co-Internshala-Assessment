@@ -26,15 +26,18 @@ export function UserMenu() {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-highlight rounded-full pl-1 pr-3 py-1 bg-secondary/50 border border-white/5 hover:border-white/10 transition-colors"
+        className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4A86A] rounded-full pl-1.5 pr-4 py-1.5 bg-[#12151C]/80 border border-[#2A2E37] hover:border-[#D4A86A]/50 hover:bg-[#12151C] transition-all duration-300 shadow-sm w-full md:w-auto justify-center md:justify-start"
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label="User account menu"
       >
-        <div className="w-8 h-8 rounded-full bg-highlight/20 border border-highlight/30 flex items-center justify-center text-highlight font-display font-medium">
+        <div className="w-8 h-8 rounded-full bg-[#D4A86A]/10 border border-[#D4A86A]/30 flex items-center justify-center text-[#D4A86A] font-serif font-medium shadow-[0_0_15px_rgba(212,168,106,0.15)]">
           {demoUser.name.charAt(0).toUpperCase()}
         </div>
-        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+        <span className="text-sm font-medium text-[#F2E7D5]">
+          {demoUser.name}
+        </span>
+        <ChevronDown className={`w-4 h-4 text-[#8A8F99] transition-transform duration-300 ml-1 ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       <AnimatePresence>
