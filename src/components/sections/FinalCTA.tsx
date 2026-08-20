@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import { Clock, Mail, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
+import { Clock, Mail, ShieldCheck, Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const container: Variants = {
   hidden: {},
@@ -56,86 +56,122 @@ export function FinalCTA() {
         />
       )}
 
-      <motion.div
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.4 }}
-        className="relative mx-auto max-w-2xl rounded-[28px] border border-[#2A2E37] bg-[#0F1219]/90 p-10 text-center shadow-[0_40px_120px_-40px_rgba(0,0,0,0.6)] backdrop-blur mx-4 sm:mx-auto"
-      >
-        <motion.span variants={item} className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-[#D4A86A]/30 bg-[#D4A86A]/10 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-[#D4A86A]">
-          <Clock size={13} aria-hidden />
-          The Evening Dispatch
-        </motion.span>
+      <div className="relative mx-auto max-w-2xl rounded-[28px] border border-[#2A2E37] bg-[#0F1219]/90 p-10 text-center shadow-[0_40px_120px_-40px_rgba(0,0,0,0.6)] backdrop-blur mx-4 sm:mx-auto min-h-[450px] flex flex-col justify-center">
+        <AnimatePresence mode="wait">
+          {status !== "done" ? (
+            <motion.div
+              key="form"
+              variants={container}
+              initial="hidden"
+              whileInView="show"
+              exit={{ opacity: 0, y: -20, transition: { duration: 0.3 } }}
+              viewport={{ once: true, amount: 0.4 }}
+              className="flex flex-col items-center"
+            >
+              <motion.span variants={item} className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-[#D4A86A]/30 bg-[#D4A86A]/10 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-[#D4A86A]">
+                <Clock size={13} aria-hidden />
+                The Evening Dispatch
+              </motion.span>
 
-        <motion.h2 id="final-cta-heading" variants={item} className="font-serif text-4xl text-[#F2E7D5] sm:text-5xl">
-          Join the Circadian Circle.
-        </motion.h2>
+              <motion.h2 id="final-cta-heading" variants={item} className="font-serif text-4xl text-[#F2E7D5] sm:text-5xl">
+                Join the Circadian Circle.
+              </motion.h2>
 
-        <motion.p variants={item} className="mx-auto mt-4 max-w-md text-[#B7BBC4]">
-          Weekly private essays on nervous system deceleration, circadian biology, and rare botanical harvest notes. Delivered every Sunday at dusk.
-        </motion.p>
+              <motion.p variants={item} className="mx-auto mt-4 max-w-md text-[#B7BBC4]">
+                Weekly private essays on nervous system deceleration, circadian biology, and rare botanical harvest notes. Delivered every Sunday at dusk.
+              </motion.p>
 
-        <motion.p variants={item} className="mt-10 text-xs uppercase tracking-[0.2em] text-[#8A8F99]">
-          Select your primary evening challenge
-        </motion.p>
+              <motion.p variants={item} className="mt-10 text-xs uppercase tracking-[0.2em] text-[#8A8F99]">
+                Select your primary evening challenge
+              </motion.p>
 
-        <motion.div variants={item} className="mt-4 flex flex-wrap justify-center gap-2">
-          {CHALLENGES.map((c) => {
-            const active = c === challenge;
-            return (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setChallenge(c)}
-                aria-pressed={active}
-                className={`rounded-full border px-4 py-2 text-sm transition-colors duration-200 ${
-                  active
-                    ? "border-[#D4A86A] bg-[#D4A86A] text-[#12151C]"
-                    : "border-[#2A2E37] bg-transparent text-[#B7BBC4] hover:border-[#D4A86A]/50"
-                }`}
-              >
-                {c}
-              </button>
-            );
-          })}
-        </motion.div>
+              <motion.div variants={item} className="mt-4 flex flex-wrap justify-center gap-2">
+                {CHALLENGES.map((c) => {
+                  const active = c === challenge;
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setChallenge(c)}
+                      aria-pressed={active}
+                      className={`rounded-full border px-4 py-2 text-sm transition-colors duration-200 ${
+                        active
+                          ? "border-[#D4A86A] bg-[#D4A86A] text-[#12151C]"
+                          : "border-[#2A2E37] bg-transparent text-[#B7BBC4] hover:border-[#D4A86A]/50"
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  );
+                })}
+              </motion.div>
 
-        <motion.form variants={item} onSubmit={handleSubmit} className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row">
-          <label htmlFor="cta-email" className="sr-only">Email address</label>
-          <div className="flex flex-1 items-center gap-2 rounded-xl border border-[#2A2E37] bg-[#F2E7D5]/95 px-4 py-3">
-            <Mail size={16} className="text-[#6E7280]" aria-hidden />
-            <input
-              id="cta-email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full bg-transparent text-sm text-[#12151C] outline-none placeholder:text-[#8A8F99]"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={status !== "idle"}
-            className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#D4A86A] px-6 py-3 text-sm font-medium text-[#12151C] transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-70"
-          >
-            {status === "loading" && "Reserving…"}
-            {status === "done" && "Demo confirmed"}
-            {status === "idle" && (
-              <>
-                Reserve my seat
-                <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
-              </>
-            )}
-          </button>
-        </motion.form>
+              <motion.form variants={item} onSubmit={handleSubmit} className="mx-auto mt-6 flex w-full max-w-md flex-col gap-3 sm:flex-row">
+                <label htmlFor="cta-email" className="sr-only">Email address</label>
+                <div className="flex flex-1 items-center gap-2 rounded-xl border border-[#2A2E37] bg-[#F2E7D5]/95 px-4 py-3">
+                  <Mail size={16} className="text-[#6E7280]" aria-hidden />
+                  <input
+                    id="cta-email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full bg-transparent text-sm text-[#12151C] outline-none placeholder:text-[#8A8F99]"
+                    disabled={status === "loading"}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={status !== "idle"}
+                  className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-[#D4A86A] px-6 py-3 text-sm font-medium text-[#12151C] transition-transform duration-200 hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:-translate-y-0"
+                >
+                  {status === "loading" ? (
+                    <span className="inline-flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-[#12151C] border-t-transparent rounded-full animate-spin" />
+                      Reserving…
+                    </span>
+                  ) : (
+                    <>
+                      Reserve my seat
+                      <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden />
+                    </>
+                  )}
+                </button>
+              </motion.form>
 
-        <motion.div variants={item} className="mt-5 flex justify-center gap-6 text-xs text-[#6E7280]">
-          <span className="inline-flex items-center gap-1.5"><ShieldCheck size={13} aria-hidden /> Zero promotions or spam</span>
-          <span className="inline-flex items-center gap-1.5"><Sparkles size={13} aria-hidden /> Seasonal formulation previews</span>
-        </motion.div>
-      </motion.div>
+              <motion.div variants={item} className="mt-5 flex flex-wrap justify-center gap-6 text-xs text-[#6E7280]">
+                <span className="inline-flex items-center gap-1.5"><ShieldCheck size={13} aria-hidden /> Zero promotions or spam</span>
+                <span className="inline-flex items-center gap-1.5"><Sparkles size={13} aria-hidden /> Seasonal formulation previews</span>
+              </motion.div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col items-center py-4"
+            >
+              <div className="w-16 h-16 rounded-full bg-[#D4A86A]/10 border border-[#D4A86A]/30 text-[#D4A86A] flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(212,168,106,0.15)]">
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+              <span className="text-xs uppercase tracking-[0.25em] text-[#D4A86A] font-semibold block mb-2">
+                Access Granted
+              </span>
+              <h3 className="font-serif text-3xl sm:text-4xl text-[#F2E7D5] mb-4">
+                Welcome to the Circadian Circle.
+              </h3>
+              <p className="text-[#B7BBC4] text-base max-w-md mx-auto mb-6 leading-relaxed">
+                Your first dispatch tailored for <span className="text-[#D4A86A]">{challenge}</span> has been scheduled for this Sunday at dusk.
+              </p>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#2A2E37] bg-[#12151C]/50 text-xs text-[#8A8F99] tracking-wider uppercase">
+                <span>Confirmation dispatched to {email}</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </section>
   );
 }

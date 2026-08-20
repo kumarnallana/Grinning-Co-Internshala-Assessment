@@ -174,8 +174,14 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Button size="lg" className="w-full sm:w-auto shadow-[0_0_30px_rgba(201,161,90,0.25)] hover:shadow-[0_0_40px_rgba(201,161,90,0.4)] transition-all" asChild>
-              <a href="#pricing">Begin Your Ritual</a>
+            <Button 
+              size="lg" 
+              className="w-full sm:w-auto shadow-[0_0_30px_rgba(201,161,90,0.25)] hover:shadow-[0_0_40px_rgba(201,161,90,0.4)] transition-all" 
+              onClick={() => {
+                document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              Begin Your Ritual
             </Button>
             <Button 
               variant="outline" 
